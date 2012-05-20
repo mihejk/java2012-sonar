@@ -2,14 +2,14 @@
 <!DOCTYPE struts PUBLIC
     "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
     "http://struts.apache.org/dtds/struts-2.3.dtd">
-    
+
 <struts>
 	<constant name="struts.devMode" value="true" />
 	<constant name="struts.mapper.class" value="rest" />
 	<constant name="struts.convention.package.locators" value="rest" />
 	<constant name="struts.convention.action.suffix" value="Controller" />
 	<constant name="struts.convention.action.mapAllMatches" value="true" />
-	<constant name="struts.convention.default.parent.package" value="java2012-sonar"/>
+	<constant name="struts.convention.default.parent.package" value="java2012-sonar" />
 	<constant name="struts.mapper.idParameterName" value="id" />
 	<constant name="struts.rest.defaultExtension" value="" />
 	<constant name="struts.i18n.encoding" value="UTF-8" />
@@ -19,7 +19,8 @@
 	<constant name="struts.ui.theme" value="simple" />
 
 	<package name="java2012-sonar" extends="struts-default">
-
+		<result-types>
+			<result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult" default="true" />
+		</result-types>
 	</package>
-
 </struts>

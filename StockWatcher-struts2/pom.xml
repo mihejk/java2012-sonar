@@ -12,6 +12,7 @@
 
 	<properties>
 		<struts2.version>2.3.3</struts2.version>
+		<tiles2.version>2.2.2</tiles2.version>
 		<springframework.version>3.1.1.RELEASE</springframework.version>
 		<hibernate.version>4.1.3.Final</hibernate.version>
 		<hibernate.validator.version>4.3.0.Final</hibernate.validator.version>
@@ -70,6 +71,23 @@
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts2-rest-plugin</artifactId>
 			<version>${struts2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-tiles-plugin</artifactId>
+			<version>${struts2.version}</version>
+		</dependency>
+
+		<!-- Tiles -->
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-core</artifactId>
+			<version>${tiles2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-jsp</artifactId>
+			<version>${tiles2.version}</version>
 		</dependency>
 
 		<dependency>

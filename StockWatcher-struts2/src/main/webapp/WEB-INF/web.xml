@@ -45,5 +45,12 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	
+		<!-- <listener> <listener-class>org.apache.struts2.tiles.StrutsTilesListener</listener-class> 
+		</listener> -->
+
+	<listener>
+		<listener-class>org.apache.tiles.web.startup.simple.SimpleTilesListener</listener-class>
+	</listener>
 
 </web-app>
