@@ -16,7 +16,7 @@
 
 	<jpa:repositories base-package="hr.java2012.sonar.repository" />
 
-	<jdbc:embedded-database id="dataSource" type="H2"/>
+	<jdbc:embedded-database id="dataSource" type="H2" />
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -33,7 +33,6 @@
 		</property>
 	</bean>
 
-	<!-- bean post-processor for JPA annotations -->
 	<bean
 		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 

@@ -8,10 +8,10 @@
 
 	<definition name="default-template" template="/WEB-INF/tiles/template/default.jsp">
 		<put-attribute name="header" value="/WEB-INF/tiles/global/header.jsp" />
-		<put-attribute name="title" value="${1}" />
 	</definition>
 
 	<definition name="*" extends="default-template">
+		<put-attribute name="title" value="{1}" />
 		<put-attribute name="content" value="/WEB-INF/tiles/content/{1}.jsp" />
 	</definition>
 

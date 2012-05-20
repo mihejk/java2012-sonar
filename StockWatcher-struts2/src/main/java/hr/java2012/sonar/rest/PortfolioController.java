@@ -22,34 +22,34 @@ public class PortfolioController implements ModelDriven<Portfolio> {
 	
 	private Portfolio model = new Portfolio();
 
-	/** GET /portfolio/1 */
+	/** Handles GET /portfolio/{id} requests */
 	public String show() {
 		return "show";
 	}
 	
-	/** GET /portfolio/1/edit */
+	/** Handles GET /portfolio/{id}/edit requests */
 	public String edit() {
 		return "edit";
 	}
 	
-	/** GET /portfolio/new */
+	/** Handles GET /portfolio/new requests */
 	public String editNew() {
 		return "new";
 	}
 	
-	/** DELETE /portfolio/1 */
-	public String delete() {
+	/** Handles DELETE /portfolio/{id} requests */
+	public String destroy() {
 		portfolioService.delete(model);
 		return "success";
 	}
 	
-	/** POST /portfolio */
+	/** Handles POST /portfolio requests */
 	public String create() {
 		model = portfolioService.save(model);
 		return "success";
 	}
 	
-	/** PUT /portfolio/1 */
+	/** Handles PUT /portfolio/{id} requests */
 	public String update() {
 		model = portfolioService.save(model);
 		return "success";
@@ -59,10 +59,14 @@ public class PortfolioController implements ModelDriven<Portfolio> {
 	public Portfolio getModel() {
 		return model;
 	}
+	
+	public void setModel(final Portfolio model) {
+		this.model = model;
+	}
 
-	public void setModelId(final Long modelId) {
-		if (modelId != null) {
-			this.model = portfolioService.findOne(modelId);
+	public void setEntityId(final Long entityId) {
+		if (entityId != null) {
+			this.model = portfolioService.findOne(entityId);
 		}
 	}
 
