@@ -200,7 +200,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>financije</finalName>
+		<finalName>java2012-sonar</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>

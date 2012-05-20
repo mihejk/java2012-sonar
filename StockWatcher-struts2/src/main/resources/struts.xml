@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+    
+<struts>
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.mapper.class" value="rest" />
+	<constant name="struts.convention.package.locators" value="rest" />
+	<constant name="struts.convention.action.suffix" value="Controller" />
+	<constant name="struts.convention.action.mapAllMatches" value="true" />
+	<constant name="struts.convention.default.parent.package" value="java2012-sonar"/>
+	<constant name="struts.mapper.idParameterName" value="id" />
+	<constant name="struts.rest.defaultExtension" value="" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.locale" value="hr_HR" />
+	<constant name="struts.custom.i18n.resources" value="locale" />
+	<constant name="struts.action.excludePattern" value="/css/.*, /js/.*, /images/.*" />
+	<constant name="struts.ui.theme" value="simple" />
+
+	<package name="java2012-sonar" extends="struts-default">
+
+	</package>
+
+</struts>

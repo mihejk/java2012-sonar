@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 public class Portfolio extends AbstractEntity {
-	
+
 	@NotNull
 	@Size(max = 50)
 	private String name;
@@ -15,10 +15,8 @@ public class Portfolio extends AbstractEntity {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
-	
-	
 
 }

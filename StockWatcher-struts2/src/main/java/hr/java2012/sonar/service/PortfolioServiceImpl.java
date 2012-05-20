@@ -15,12 +15,12 @@ public class PortfolioServiceImpl implements PortfolioService {
 	private PortfolioRepository repository;
 
 	@Override
-	public Portfolio save(Portfolio entity) {
+	public Portfolio save(final Portfolio entity) {
 		return repository.save(entity);
 	}
 
 	@Override
-	public void delete(Portfolio entity) {
+	public void delete(final Portfolio entity) {
 		repository.delete(entity);
 	}
 
@@ -35,7 +35,7 @@ public class PortfolioServiceImpl implements PortfolioService {
 	}
 
 	@Override
-	public Portfolio findOne(Long id) {
+	public Portfolio findOne(final Long id) {
 		return repository.findOne(id);
 	}
 

@@ -10,6 +10,7 @@
 	</appender>
 
 	<logger name="hr.java2012.sonar" level="DEBUG" />
+	<logger name="org.apache.struts2" level="DEBUG" />
 
 	<root level="INFO">
 		<appender-ref ref="STDOUT" />
