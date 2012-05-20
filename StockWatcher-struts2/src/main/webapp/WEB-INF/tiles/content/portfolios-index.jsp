@@ -2,6 +2,8 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
+<h1><s:text name="title.portfolios-index" /></h1>
+
 <table>
 	<tr>
 		<th><s:text name="model.portfolio.name" /></th>
@@ -9,8 +11,16 @@
 	</tr>
 	<s:iterator value="model">
 		<tr>
-			<td><s:property value="name" /></td>
-			<td><a href="<%=request.getContextPath() %>/portfolio/${id}"><s:text name="label.view" /></a></td>
+			<td>${name}</td>
+			<td>
+				<a href="portfolio/${id}"><s:text name="label.view" /></a> |
+				<a href="portfolio/${id}/edit"><s:text name="label.edit" /></a> |
+				<a href="portfolio/${id}/delete?_method=DELETE"><s:text name="label.delete" /></a>
+			</td>
 		</tr>
 	</s:iterator>
 </table>
+
+<p>
+	<a href="portfolio/new"><s:text name="title.portfolio-new" /></a>
+</p>
