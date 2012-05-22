@@ -3,4 +3,5 @@
 
 <p>
 	<a href="<%=request.getContextPath()%>/portfolios"><s:text name="title.portfolios-index" /></a>
+	<a href="<%=request.getContextPath()%>/stocks"><s:text name="title.stocks-index" /></a>
 </p>

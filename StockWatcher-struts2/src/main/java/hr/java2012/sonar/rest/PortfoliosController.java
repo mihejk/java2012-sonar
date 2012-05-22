@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.opensymphony.xwork2.ModelDriven;
 
 @Results({
-	@Result(name = "index", type = "tiles", location = "portfolios-index")
+		@Result(name = "index", type = "tiles", location = "portfolios-index")
 })
 public class PortfoliosController implements ModelDriven<List<Portfolio>> {
 
