@@ -21,6 +21,7 @@ public class StocksController implements ModelDriven<List<Stock>> {
 
 	private List<Stock> model;
 
+	/** Handles GET /stocks requests */
 	public String index() {
 		model = stockService.findAll();
 		return "index";

@@ -7,3 +7,31 @@
 		<td>${model.name}</td>
 	</tr>
 </table>
+
+<br/>
+
+<table>
+	<tr>
+		<th><s:text name="model.stock.ticker" /></th>
+		<th><s:text name="model.position.quantity" /></th>
+		<th><s:text name="label.actions" /></th>
+	</tr>
+	<s:iterator value="positions">
+		<tr>
+			<td>${stock.ticker}</td>
+			<td>${quantity}</td>
+			<td>
+				<a href="<%=request.getContextPath() %>/position/${id}?_method=DELETE"><s:text name="label.delete" /></a>
+			</td>
+		</tr>
+	</s:iterator>
+</table>
+
+<br/>
+
+<s:form action="%{#request.contextPath}/position" method="post">
+	<s:hidden name="model.portfolio" value="%{model.id}"/>
+	<s:select list="stocks" listKey="id" listValue="ticker" name="model.stock" key="model.stock.ticker"/>
+	<s:textfield name="model.quantity" key="model.position.quantity" />
+	<s:submit />
+</s:form>

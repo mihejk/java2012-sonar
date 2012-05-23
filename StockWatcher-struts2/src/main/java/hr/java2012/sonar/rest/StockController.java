@@ -7,10 +7,11 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ModelDriven;
 
 @Results({
-		@Result(name = "success", type = "redirectAction", params = { "actionName", "stocks" }),
+		@Result(name = Action.SUCCESS, type = "redirectAction", params = { "actionName", "stocks" }),
 		@Result(name = "show", type = "tiles", location = "stock-show"),
 		@Result(name = "new", type = "tiles", location = "stock-new"),
 		@Result(name = "edit", type = "tiles", location = "stock-edit")
@@ -40,19 +41,19 @@ public class StockController implements ModelDriven<Stock> {
 	/** Handles DELETE /stock/{id} requests */
 	public String destroy() {
 		stockService.delete(model);
-		return "success";
+		return Action.SUCCESS;
 	}
 
 	/** Handles POST /stock requests */
 	public String create() {
 		model = stockService.save(model);
-		return "success";
+		return Action.SUCCESS;
 	}
 
 	/** Handles PUT /stock/{id} requests */
 	public String update() {
 		model = stockService.save(model);
-		return "success";
+		return Action.SUCCESS;
 	}
 
 	@Override

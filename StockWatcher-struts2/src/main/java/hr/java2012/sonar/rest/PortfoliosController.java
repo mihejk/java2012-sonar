@@ -21,6 +21,7 @@ public class PortfoliosController implements ModelDriven<List<Portfolio>> {
 
 	private List<Portfolio> model;
 
+	/** Handles GET /portfolios requests */
 	public String index() {
 		model = portfolioService.findAll();
 		return "index";
