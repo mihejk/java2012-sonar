@@ -8,6 +8,8 @@ public interface AbstractEntityService<T extends AbstractEntity> {
 
 	T save(T entity);
 
+	List<T> save(Iterable<T> entities);
+
 	void delete(T entity);
 
 	List<T> findAll();

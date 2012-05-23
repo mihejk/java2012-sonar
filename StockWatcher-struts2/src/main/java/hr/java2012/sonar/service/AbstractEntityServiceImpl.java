@@ -23,6 +23,12 @@ public class AbstractEntityServiceImpl<T extends AbstractEntity> implements Abst
 
 	@Transactional
 	@Override
+	public List<T> save(final Iterable<T> entities) {
+		return repository.save(entities);
+	}
+
+	@Transactional
+	@Override
 	public void delete(final T entity) {
 		repository.delete(entity);
 	}
