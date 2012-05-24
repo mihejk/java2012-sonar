@@ -1,4 +1,4 @@
-package hr.java2012.sonar.repository;
+package hr.java2012.sonar.service;
 
 import static ch.lambdaj.Lambda.extract;
 import static ch.lambdaj.Lambda.on;
