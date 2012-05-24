@@ -13,12 +13,14 @@
 <table>
 	<tr>
 		<th><s:text name="model.stock.ticker" /></th>
+		<th><s:text name="model.stock.name" /></th>
 		<th><s:text name="model.position.quantity" /></th>
 		<th><s:text name="label.actions" /></th>
 	</tr>
 	<s:iterator value="positions">
 		<tr>
 			<td>${stock.ticker}</td>
+			<td>${stock.name}</td>
 			<td>${quantity}</td>
 			<td>
 				<a href="<%=request.getContextPath() %>/position/${id}?_method=DELETE"><s:text name="label.delete" /></a>

@@ -14,6 +14,7 @@ public class AbstractEntityConverter<T extends AbstractEntity> extends StrutsTyp
 	private final AbstractEntityService<T> entityService;
 
 	public AbstractEntityConverter(final Class<T> entityClass, final AbstractEntityService<T> entityService) {
+		super();
 		this.entityClass = entityClass;
 		this.entityService = entityService;
 	}
