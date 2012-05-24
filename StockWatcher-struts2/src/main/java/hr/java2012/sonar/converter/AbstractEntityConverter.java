@@ -1,12 +1,13 @@
 package hr.java2012.sonar.converter;
 
+import hr.java2012.sonar.model.AbstractEntity;
 import hr.java2012.sonar.service.AbstractEntityService;
 
 import java.util.Map;
 
 import org.apache.struts2.util.StrutsTypeConverter;
 
-public class AbstractEntityConverter<T extends hr.java2012.sonar.model.AbstractEntity> extends StrutsTypeConverter {
+public class AbstractEntityConverter<T extends AbstractEntity> extends StrutsTypeConverter {
 
 	private final Class<T> entityClass;
 

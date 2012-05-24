@@ -9,6 +9,8 @@ public interface PriceService extends AbstractEntityService<Price> {
 
 	Price findLastPrice(Stock stock);
 
+	List<Price> findLastPrices(Stock stock, int n);
+
 	Price generatePrice(Stock stock);
 
 	List<Price> generatePrices(Stock stock, int n);

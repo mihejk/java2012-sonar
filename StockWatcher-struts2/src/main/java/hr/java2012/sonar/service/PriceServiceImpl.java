@@ -9,24 +9,34 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PriceServiceImpl extends AbstractEntityServiceImpl<Price> implements PriceService {
 
-	private final PriceRepository priceRepository;
+	private final PriceRepository repository;
 
 	private final Random random = new Random();
 
 	@Autowired
 	public PriceServiceImpl(final PriceRepository repository) {
 		super(repository);
-		priceRepository = repository;
+		this.repository = repository;
 	}
 
 	@Override
 	public Price findLastPrice(final Stock stock) {
-		return priceRepository.findLastPrice(stock);
+		return repository.findLastByStock(stock);
+	}
+
+	@Override
+	public List<Price> findLastPrices(final Stock stock, final int n) {
+		PageRequest pageRequest = new PageRequest(0, n, Sort.Direction.DESC, "id");
+		Page<Price> page = repository.findByStock(stock, pageRequest);
+		return page.getContent();
 	}
 
 	@Override
@@ -38,7 +48,7 @@ public class PriceServiceImpl extends AbstractEntityServiceImpl<Price> implement
 		final Price price = new Price();
 		price.setStock(stock);
 		price.setValue(newPriceValue);
-		return priceRepository.save(price);
+		return repository.save(price);
 	}
 
 	@Override
@@ -55,7 +65,7 @@ public class PriceServiceImpl extends AbstractEntityServiceImpl<Price> implement
 			prices.add(price);
 			lastPriceValue = newPriceValue;
 		}
-		return priceRepository.save(prices);
+		return repository.save(prices);
 	}
 
 }
