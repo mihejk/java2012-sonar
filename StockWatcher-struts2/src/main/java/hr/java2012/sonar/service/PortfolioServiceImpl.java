@@ -11,9 +11,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PortfolioServiceImpl extends AbstractEntityServiceImpl<Portfolio> implements PortfolioService {
 
+	private final PortfolioRepository repository;
+
 	@Autowired
 	public PortfolioServiceImpl(final PortfolioRepository repository) {
 		super(repository);
+		this.repository = repository;
+	}
+
+	@Override
+	public Portfolio findByName(final String name) {
+		return repository.findByName(name);
 	}
 
 }

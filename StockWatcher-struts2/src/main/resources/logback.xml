@@ -12,7 +12,7 @@
 	<logger name="hr.java2012.sonar" level="DEBUG" />
 	<logger name="org.apache.struts2" level="DEBUG" />
 	<logger name="com.opensymphony.xwork2.conversion.impl.XWorkConverter" level="OFF" />
-	<logger name="org.springframework.core.type.classreading.AbstractRecursiveAnnotationVisitor" level="OFF" />
+	<logger name="org.springframework.core.type.classreading.AbstractRecursiveAnnotationVisitor" level="ERROR" />
 
 	<root level="INFO">
 		<appender-ref ref="STDOUT" />
