@@ -13,7 +13,7 @@
 	<constant name="struts.mapper.idParameterName" value="entityId" />
 	<constant name="struts.rest.defaultExtension" value="" />
 	<constant name="struts.i18n.encoding" value="UTF-8" />
-	<constant name="struts.locale" value="hr_HR" />
+	<constant name="struts.locale" value="en_US" />
 	<constant name="struts.custom.i18n.resources" value="locale" />
 	<constant name="struts.action.excludePattern" value="/css/.*, /js/.*, /images/.*" />
 
