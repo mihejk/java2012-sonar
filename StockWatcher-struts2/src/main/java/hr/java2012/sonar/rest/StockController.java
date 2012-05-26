@@ -1,5 +1,7 @@
 package hr.java2012.sonar.rest;
 
+import java.util.List;
+
 import hr.java2012.sonar.model.Stock;
 import hr.java2012.sonar.service.StockService;
 
@@ -11,17 +13,26 @@ import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ModelDriven;
 
 @Results({
-		@Result(name = Action.SUCCESS, type = "redirectAction", params = { "actionName", "stocks" }),
+		@Result(name = Action.SUCCESS, type = "redirectAction", params = { "actionName", "stock" }),
+		@Result(name = "index", type = "tiles", location = "stock-index"),
 		@Result(name = "show", type = "tiles", location = "stock-show"),
 		@Result(name = "new", type = "tiles", location = "stock-new"),
 		@Result(name = "edit", type = "tiles", location = "stock-edit")
 })
-public class StockController implements ModelDriven<Stock> {
+public class StockController implements ModelDriven<Object> {
 
 	@Autowired
 	private StockService stockService;
 
-	private Stock model = new Stock();
+	private Stock stock = new Stock();
+	
+	private List<Stock> stockList;
+	
+	/** Handles GET /stocks requests */
+	public String index() {
+		stockList = stockService.findAll();
+		return "index";
+	}
 
 	/** Handles GET /stock/{id} requests */
 	public String show() {
@@ -40,34 +51,30 @@ public class StockController implements ModelDriven<Stock> {
 
 	/** Handles DELETE /stock/{id} requests */
 	public String destroy() {
-		stockService.delete(model);
+		stockService.delete(stock);
 		return Action.SUCCESS;
 	}
 
 	/** Handles POST /stock requests */
 	public String create() {
-		model = stockService.save(model);
+		stock = stockService.save(stock);
 		return Action.SUCCESS;
 	}
 
 	/** Handles PUT /stock/{id} requests */
 	public String update() {
-		model = stockService.save(model);
+		stock = stockService.save(stock);
 		return Action.SUCCESS;
 	}
 
 	@Override
-	public Stock getModel() {
-		return model;
-	}
-
-	public void setModel(final Stock model) {
-		this.model = model;
+	public Object getModel() {
+		return stockList == null ? stock : stockList;
 	}
 
 	public void setEntityId(final Long entityId) {
 		if (entityId != null) {
-			this.model = stockService.findOne(entityId);
+			this.stock = stockService.findOne(entityId);
 		}
 	}
 

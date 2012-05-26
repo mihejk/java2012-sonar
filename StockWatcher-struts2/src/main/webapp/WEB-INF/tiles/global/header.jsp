@@ -2,6 +2,6 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
 <p>
-	<a href="<%=request.getContextPath()%>/portfolios"><s:text name="title.portfolios-index" /></a>
-	<a href="<%=request.getContextPath()%>/stocks"><s:text name="title.stocks-index" /></a>
+	<a href="<%=request.getContextPath()%>/portfolio"><s:text name="title.portfolio-index" /></a>
+	<a href="<%=request.getContextPath()%>/stock"><s:text name="title.stock-index" /></a>
 </p>

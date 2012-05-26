@@ -16,10 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ModelDriven;
 
-@Results({ @Result(name = Action.SUCCESS, type = "redirectAction", params = { "actionName", "portfolios" }),
-		@Result(name = "show", type = "tiles", location = "portfolio-show"), @Result(name = "new", type = "tiles", location = "portfolio-new"),
-		@Result(name = "edit", type = "tiles", location = "portfolio-edit") })
-public class PortfolioController implements ModelDriven<Portfolio> {
+@Results({ 
+		@Result(name = Action.SUCCESS, type = "redirectAction", params = { "actionName", "portfolio" }),
+		@Result(name = "index", type = "tiles", location = "portfolio-index"),
+		@Result(name = "show", type = "tiles", location = "portfolio-show"), 
+		@Result(name = "new", type = "tiles", location = "portfolio-new"),
+		@Result(name = "edit", type = "tiles", location = "portfolio-edit")
+})
+public class PortfolioController implements ModelDriven<Object> {
 
 	@Autowired
 	private PortfolioService portfolioService;
@@ -30,16 +34,24 @@ public class PortfolioController implements ModelDriven<Portfolio> {
 	@Autowired
 	private StockService stockService;
 
-	private Portfolio model = new Portfolio();
+	private Portfolio portfolio = new Portfolio();
+	
+	private List<Portfolio> portfolioList;
 
 	private List<Position> positions;
 
 	private List<Stock> stocks;
+	
+	/** Handles GET /portfolio requests */
+	public String index() {
+		portfolioList = portfolioService.findAll();
+		return "index";
+	}
 
 	/** Handles GET /portfolio/{id} requests */
 	public String show() {
-		positions = positionService.findByPortfolio(model);
-		stocks = stockService.findByNotInPortfolio(model);
+		positions = positionService.findByPortfolio(portfolio);
+		stocks = stockService.findByNotInPortfolio(portfolio);
 		return "show";
 	}
 
@@ -55,34 +67,30 @@ public class PortfolioController implements ModelDriven<Portfolio> {
 
 	/** Handles DELETE /portfolio/{id} requests */
 	public String destroy() {
-		portfolioService.delete(model);
+		portfolioService.delete(portfolio);
 		return Action.SUCCESS;
 	}
 
 	/** Handles POST /portfolio requests */
 	public String create() {
-		model = portfolioService.save(model);
+		portfolio = portfolioService.save(portfolio);
 		return Action.SUCCESS;
 	}
 
 	/** Handles PUT /portfolio/{id} requests */
 	public String update() {
-		model = portfolioService.save(model);
+		portfolio = portfolioService.save(portfolio);
 		return Action.SUCCESS;
 	}
 
 	@Override
-	public Portfolio getModel() {
-		return model;
-	}
-
-	public void setModel(final Portfolio model) {
-		this.model = model;
+	public Object getModel() {
+		return portfolioList == null ? portfolio : portfolioList;
 	}
 
 	public void setEntityId(final Long entityId) {
 		if (entityId != null) {
-			this.model = portfolioService.findOne(entityId);
+			this.portfolio = portfolioService.findOne(entityId);
 		}
 	}
 
