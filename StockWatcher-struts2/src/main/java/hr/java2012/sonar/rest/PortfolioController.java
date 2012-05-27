@@ -85,7 +85,7 @@ public class PortfolioController implements ModelDriven<Object> {
 
 	@Override
 	public Object getModel() {
-		return portfolioList == null ? portfolio : portfolioList;
+		return (portfolioList == null ? portfolio : portfolioList);
 	}
 
 	public void setEntityId(final Long entityId) {

@@ -28,7 +28,7 @@ public class StockController implements ModelDriven<Object> {
 	
 	private List<Stock> stockList;
 	
-	/** Handles GET /stocks requests */
+	/** Handles GET /stock requests */
 	public String index() {
 		stockList = stockService.findAll();
 		return "index";
@@ -69,7 +69,7 @@ public class StockController implements ModelDriven<Object> {
 
 	@Override
 	public Object getModel() {
-		return stockList == null ? stock : stockList;
+		return (stockList == null ? stock : stockList);
 	}
 
 	public void setEntityId(final Long entityId) {

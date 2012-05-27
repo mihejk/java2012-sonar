@@ -19,3 +19,19 @@
 		<td>${model.stdDev}</td>
 	</tr>
 </table>
+
+<br/>
+
+<s:form action="%{#request.contextPath}/price!byStock" method="post">
+	<s:hidden name="stock" value="%{model.id}" />
+	<s:select name="n" list="{10, 50, 100, 500}"/>
+	<s:submit />
+</s:form>
+
+<br/>
+
+<s:form action="%{#request.contextPath}/price!generate" method="post">
+	<s:hidden name="stock" value="%{model.id}" />
+	<s:select name="n" list="{10, 50, 100, 500}"/>
+	<s:submit />
+</s:form>
