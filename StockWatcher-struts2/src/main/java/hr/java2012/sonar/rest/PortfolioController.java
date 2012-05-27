@@ -1,13 +1,14 @@
 package hr.java2012.sonar.rest;
 
-import java.util.List;
-
 import hr.java2012.sonar.model.Portfolio;
 import hr.java2012.sonar.model.Position;
 import hr.java2012.sonar.model.Stock;
 import hr.java2012.sonar.service.PortfolioService;
 import hr.java2012.sonar.service.PositionService;
+import hr.java2012.sonar.service.StatisticsService;
 import hr.java2012.sonar.service.StockService;
+
+import java.util.List;
 
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
@@ -16,10 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ModelDriven;
 
-@Results({ 
+@Results({
 		@Result(name = Action.SUCCESS, type = "redirectAction", params = { "actionName", "portfolio" }),
 		@Result(name = "index", type = "tiles", location = "portfolio-index"),
-		@Result(name = "show", type = "tiles", location = "portfolio-show"), 
+		@Result(name = "show", type = "tiles", location = "portfolio-show"),
 		@Result(name = "new", type = "tiles", location = "portfolio-new"),
 		@Result(name = "edit", type = "tiles", location = "portfolio-edit")
 })
@@ -34,14 +35,17 @@ public class PortfolioController implements ModelDriven<Object> {
 	@Autowired
 	private StockService stockService;
 
+	@Autowired
+	private StatisticsService statisticsService;
+
 	private Portfolio portfolio = new Portfolio();
-	
+
 	private List<Portfolio> portfolioList;
 
 	private List<Position> positions;
 
 	private List<Stock> stocks;
-	
+
 	/** Handles GET /portfolio requests */
 	public String index() {
 		portfolioList = portfolioService.findAll();
@@ -100,6 +104,10 @@ public class PortfolioController implements ModelDriven<Object> {
 
 	public List<Stock> getStocks() {
 		return stocks;
+	}
+
+	public double getExactVar95() {
+		return statisticsService.exactVar95(portfolio);
 	}
 
 }

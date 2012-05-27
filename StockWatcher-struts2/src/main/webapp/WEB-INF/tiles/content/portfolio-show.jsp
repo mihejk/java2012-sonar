@@ -6,6 +6,10 @@
 		<th><s:text name="model.portfolio.name" /></th>
 		<td>${model.name}</td>
 	</tr>
+	<tr>
+		<th><s:text name="model.portfolio.exactVar95" /></th>
+		<td>${exactVar95}</td>
+	</tr>
 </table>
 
 <br/>
