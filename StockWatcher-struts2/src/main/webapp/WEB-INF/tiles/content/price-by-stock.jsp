@@ -3,10 +3,12 @@
 
 <table>
 	<tr>
+		<th><s:text name="label.ordinal" /></th>
 		<th><s:text name="model.price.value" /></th>
 	</tr>
-	<s:iterator value="model">
+	<s:iterator value="model" status="status">
 		<tr>
+			<td><s:property value="#status.count"/></td>
 			<td>${value}</td>
 		</tr>
 	</s:iterator>

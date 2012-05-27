@@ -18,6 +18,10 @@
 		<th><s:text name="model.stock.stdDev" /></th>
 		<td>${model.stdDev}</td>
 	</tr>
+	<tr>
+		<th><s:text name="label.prices_count" /></th>
+		<td>${priceCount}</td>
+	</tr>
 </table>
 
 <br/>
