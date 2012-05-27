@@ -4,11 +4,29 @@
 <table>
 	<tr>
 		<th><s:text name="model.portfolio.name" /></th>
-		<td>${model.name}</td>
+		<td colspan="3">${model.name}</td>
 	</tr>
 	<tr>
-		<th><s:text name="model.portfolio.exactVar95" /></th>
-		<td>${exactVar95}</td>
+		<th><s:text name="label.value" /></th>
+		<td colspan="3"></td>
+	</tr>
+	<tr>
+		<th><s:text name="statistics.exactVar95" /></th>
+		<td></td>
+		<th><s:text name="statistics.exactVar99" /></th>
+		<td></td>
+	</tr>
+	<tr>
+		<th><s:text name="statistics.historicVar95" /></th>
+		<td></td>
+		<th><s:text name="statistics.historicVar99" /></th>
+		<td></td>
+	</tr>
+	<tr>
+		<th><s:text name="statistics.hybridVar95" /></th>
+		<td></td>
+		<th><s:text name="statistics.hybridVar99" /></th>
+		<td></td>
 	</tr>
 </table>
 
@@ -19,6 +37,7 @@
 		<th><s:text name="model.stock.ticker" /></th>
 		<th><s:text name="model.stock.name" /></th>
 		<th><s:text name="model.position.quantity" /></th>
+		<th><s:text name="label.last_price" /></th>
 		<th><s:text name="label.actions" /></th>
 	</tr>
 	<s:iterator value="positions">
@@ -26,6 +45,7 @@
 			<td>${stock.ticker}</td>
 			<td>${stock.name}</td>
 			<td>${quantity}</td>
+			<td></td>
 			<td>
 				<a href="<%=request.getContextPath() %>/position/${id}?_method=DELETE"><s:text name="label.delete" /></a>
 			</td>

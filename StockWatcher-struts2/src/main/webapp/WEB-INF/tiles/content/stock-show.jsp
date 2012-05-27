@@ -11,12 +11,12 @@
 		<td>${model.name}</td>
 	</tr>
 	<tr>
-		<th><s:text name="model.stock.mean" /></th>
-		<td>${model.mean}</td>
-	</tr>
-	<tr>
 		<th><s:text name="model.stock.stdDev" /></th>
 		<td>${model.stdDev}</td>
+	</tr>
+	<tr>
+		<th><s:text name="label.last_price" /></th>
+		<td></td>
 	</tr>
 	<tr>
 		<th><s:text name="label.prices_count" /></th>
