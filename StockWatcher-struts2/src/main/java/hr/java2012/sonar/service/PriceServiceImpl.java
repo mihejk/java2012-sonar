@@ -48,7 +48,7 @@ public class PriceServiceImpl extends AbstractEntityServiceImpl<Price> implement
 	public Price generatePrice(final Stock stock) {
 		final Price lastPrice = findLastPrice(stock);
 		final double lastPriceValue = (lastPrice != null ? lastPrice.getValue() : 1.0 + 999.0 * random.nextDouble());
-		final double newReturn = 1.0 + random.nextGaussian() * stock.getStdDev() + stock.getMean();
+		final double newReturn = 1.0 + random.nextGaussian() * stock.getStdDev();
 		final double newPriceValue = lastPriceValue * newReturn;
 		final Price price = new Price();
 		price.setStock(stock);
@@ -62,7 +62,7 @@ public class PriceServiceImpl extends AbstractEntityServiceImpl<Price> implement
 		double lastPriceValue = (lastPrice != null ? lastPrice.getValue() : 1.0 + 999.0 * random.nextDouble());
 		final List<Price> prices = new ArrayList<Price>(n);
 		for (int i = 0; i < n; ++i) {
-			final double newReturn = 1.0 + random.nextGaussian() * stock.getStdDev() + stock.getMean();
+			final double newReturn = 1.0 + random.nextGaussian() * stock.getStdDev();
 			final double newPriceValue = lastPriceValue * newReturn;
 			final Price price = new Price();
 			price.setStock(stock);

@@ -19,9 +19,6 @@ public class Stock extends AbstractEntity {
 	private String name;
 
 	@NotNull
-	private Double mean;
-
-	@NotNull
 	private Double stdDev;
 
 	public String getTicker() {
@@ -38,14 +35,6 @@ public class Stock extends AbstractEntity {
 
 	public void setName(final String name) {
 		this.name = name;
-	}
-
-	public Double getMean() {
-		return mean;
-	}
-
-	public void setMean(final Double mean) {
-		this.mean = mean;
 	}
 
 	public Double getStdDev() {

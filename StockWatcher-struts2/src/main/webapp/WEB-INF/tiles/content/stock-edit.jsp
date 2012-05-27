@@ -6,7 +6,6 @@
 	<s:hidden name="model.id"/>
 	<s:textfield name="model.ticker" key="model.stock.ticker" />
 	<s:textfield name="model.name" key="model.stock.name" />
-	<s:textfield name="model.mean" key="model.stock.mean" />
 	<s:textfield name="model.stdDev" key="model.stock.stdDev" />
 	<s:submit />
 </s:form>

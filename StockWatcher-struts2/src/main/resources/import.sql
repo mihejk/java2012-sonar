@@ -1,13 +1,13 @@
 insert into Portfolio (id, name) values (1, 'Portfolio1');
 insert into Portfolio (id, name) values (2, 'Portfolio2');
 
-insert into Stock (id, ticker, name, mean, stdDev) values (1, 'FB', 'Facebook Inc', 0.0, 0.1);
-insert into Stock (id, ticker, name, mean, stdDev) values (2, 'AAPL', 'Apple Inc.', 0.0, 0.05);
-insert into Stock (id, ticker, name, mean, stdDev) values (3, 'MSFT', 'Microsoft Corporation', 0.0, 0.01);
-insert into Stock (id, ticker, name, mean, stdDev) values (4, 'ORCL', 'Oracle Corporation', 0.0, 0.07);
-insert into Stock (id, ticker, name, mean, stdDev) values (5, 'GOOG', 'Google Inc', 0.0, 0.06);
-insert into Stock (id, ticker, name, mean, stdDev) values (6, 'AMZN', 'Amazon.com, Inc.', 0.0, 0.03);
-insert into Stock (id, ticker, name, mean, stdDev) values (7, 'NFLX', 'Netflix, Inc.', 0.0, 0.09);
+insert into Stock (id, ticker, name, stdDev) values (1, 'FB', 'Facebook Inc', 0.1);
+insert into Stock (id, ticker, name, stdDev) values (2, 'AAPL', 'Apple Inc.', 0.05);
+insert into Stock (id, ticker, name, stdDev) values (3, 'MSFT', 'Microsoft Corporation', 0.01);
+insert into Stock (id, ticker, name, stdDev) values (4, 'ORCL', 'Oracle Corporation', 0.07);
+insert into Stock (id, ticker, name, stdDev) values (5, 'GOOG', 'Google Inc', 0.06);
+insert into Stock (id, ticker, name, stdDev) values (6, 'AMZN', 'Amazon.com, Inc.', 0.03);
+insert into Stock (id, ticker, name, stdDev) values (7, 'NFLX', 'Netflix, Inc.', 0.09);
 
 insert into Position (portfolio_id, stock_id, quantity) values (1, 1, 165);
 insert into Position (portfolio_id, stock_id, quantity) values (1, 2, 10);
