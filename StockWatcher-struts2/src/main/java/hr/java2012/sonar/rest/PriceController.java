@@ -11,14 +11,17 @@ import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.Action;
+import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
 @Results({ 
 	@Result(name = Action.SUCCESS, type = "redirectAction", params = { "actionName", "stock!show", "entityId", "${stockId}"}),
 	@Result(name = "by-stock", type = "tiles", location = "price-by-stock")
 })
-public class PriceController implements ModelDriven<List<Price>> {
+public class PriceController extends ActionSupport implements ModelDriven<List<Price>> {
 	
+	private static final long serialVersionUID = 1L;
+
 	@Autowired
 	private PriceService priceService;
 	

@@ -28,7 +28,7 @@ public class StatisticsController implements ModelDriven<Double> {
 
 	private Portfolio portfolio;
 	
-	private String statisticsMethod;
+	private String analysisMethod;
 
 	private List<Portfolio> portfolioList;
 
@@ -42,14 +42,14 @@ public class StatisticsController implements ModelDriven<Double> {
 
 	/** Handles GET /statistics!exactVar95?portfolio={id} requests */
 	public String exactVar95() {
-		statisticsMethod = "exact_var_95";
+		analysisMethod = "exactVar95";
 		result = statisticsService.exactVar95(portfolio);
 		return "result";
 	}
 	
 	/** Handles GET /statistics!exactVar99?portfolio={id} requests */
 	public String exactVar99() {
-		statisticsMethod = "exact_var_99";
+		analysisMethod = "exactVar99";
 		result = statisticsService.exactVar99(portfolio);
 		return "result";
 	}
@@ -57,28 +57,28 @@ public class StatisticsController implements ModelDriven<Double> {
 	
 	/** Handles GET /statistics!historicVar95?portfolio={id} requests */
 	public String historicVar95() {
-		statisticsMethod = "historic_var_95";
+		analysisMethod = "historicVar95";
 		result = statisticsService.historicVar95(portfolio);
 		return "result";
 	}
 
 	/** Handles GET /statistics!historicVar99?portfolio={id} requests */
 	public String historicVar99() {
-		statisticsMethod = "historic_var_99";
+		analysisMethod = "historicVar99";
 		result = statisticsService.historicVar99(portfolio);
 		return "result";
 	}
 	
 	/** Handles GET /statistics!hybridVar95?portfolio={id} requests */
 	public String hybridVar95() {
-		statisticsMethod = "hybrid_var_95";
+		analysisMethod = "hybridVar95";
 		result = statisticsService.hybridVar95(portfolio);
 		return "result";
 	}
 	
 	/** Handles GET /statistics!hybridVar99?portfolio={id} requests */
 	public String hybridVar99() {
-		statisticsMethod = "hybrid_var_99";
+		analysisMethod = "hybridVar99";
 		result = statisticsService.hybridVar99(portfolio);
 		return "result";
 	}
@@ -96,8 +96,8 @@ public class StatisticsController implements ModelDriven<Double> {
 		this.portfolio = portfolio;
 	}
 
-	public String getStatisticsMethod() {
-		return statisticsMethod;
+	public String getAnalysisMethod() {
+		return analysisMethod;
 	}
 
 	public List<Portfolio> getPortfolioList() {

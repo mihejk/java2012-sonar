@@ -3,7 +3,7 @@
 
 <table>
 	<tr>
-		<th><s:text name="model.value" /></th>
+		<th><s:text name="model.price.value" /></th>
 	</tr>
 	<s:iterator value="model">
 		<tr>

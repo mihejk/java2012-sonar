@@ -19,7 +19,7 @@
 			<td>
 				<a href="stock/${id}"><s:text name="label.view" /></a> |
 				<a href="stock/${id}/edit"><s:text name="label.edit" /></a> |
-				<a href="stock/${id}?_method=DELETE"><s:text name="label.delete" /></a> |
+				<a href="stock/${id}?_method=DELETE"><s:text name="label.delete" /></a>
 			</td>
 		</tr>
 	</s:iterator>
