@@ -11,7 +11,33 @@
 		<td>${model.name}</td>
 	</tr>
 	<tr>
+		<th><s:text name="model.stock.mean" /></th>
+		<td>${model.mean}</td>
+	</tr>
+	<tr>
 		<th><s:text name="model.stock.stdDev" /></th>
 		<td>${model.stdDev}</td>
 	</tr>
+	<tr>
+		<th><s:text name="label.prices_count" /></th>
+		<td>${priceCount}</td>
+	</tr>
 </table>
+
+<br/>
+
+<h2><s:text name="title.show_prices" /></h2>
+<s:form action="%{#request.contextPath}/price!byStock" method="post">
+	<s:hidden name="stock" value="%{model.id}" />
+	<s:select name="n" list="{10, 50, 100, 500}" key="label.prices_count"/>
+	<s:submit />
+</s:form>
+
+<br/>
+
+<h2><s:text name="title.generate_prices" /></h2>
+<s:form action="%{#request.contextPath}/price!generate" method="post">
+	<s:hidden name="stock" value="%{model.id}" />
+	<s:select name="n" list="{10, 50, 100, 500}" key="label.prices_count"/>
+	<s:submit />
+</s:form>

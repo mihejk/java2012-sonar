@@ -3,6 +3,7 @@ package hr.java2012.sonar.rest;
 import java.util.List;
 
 import hr.java2012.sonar.model.Stock;
+import hr.java2012.sonar.service.PriceService;
 import hr.java2012.sonar.service.StockService;
 
 import org.apache.struts2.convention.annotation.Result;
@@ -23,12 +24,17 @@ public class StockController implements ModelDriven<Object> {
 
 	@Autowired
 	private StockService stockService;
+	
+	@Autowired
+	private PriceService priceService;
 
 	private Stock stock = new Stock();
 	
+	private Long priceCount;
+	
 	private List<Stock> stockList;
 	
-	/** Handles GET /stocks requests */
+	/** Handles GET /stock requests */
 	public String index() {
 		stockList = stockService.findAll();
 		return "index";
@@ -36,6 +42,7 @@ public class StockController implements ModelDriven<Object> {
 
 	/** Handles GET /stock/{id} requests */
 	public String show() {
+		priceCount = priceService.countPrices(stock);
 		return "show";
 	}
 
@@ -69,13 +76,17 @@ public class StockController implements ModelDriven<Object> {
 
 	@Override
 	public Object getModel() {
-		return stockList == null ? stock : stockList;
+		return (stockList == null ? stock : stockList);
 	}
 
 	public void setEntityId(final Long entityId) {
 		if (entityId != null) {
 			this.stock = stockService.findOne(entityId);
 		}
+	}
+
+	public Long getPriceCount() {
+		return priceCount;
 	}
 
 }
