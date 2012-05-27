@@ -7,17 +7,20 @@ import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.junit.Assert.assertThat;
 import hr.java2012.sonar.model.Price;
 import hr.java2012.sonar.model.Stock;
-import hr.java2012.sonar.service.PriceService;
-import hr.java2012.sonar.service.StockService;
 import hr.java2012.sonar.test.AbstractTransactionalIT;
 
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class PriceServiceIT extends AbstractTransactionalIT {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(PriceServiceIT.class);
 
 	@Autowired
 	private PriceService priceService;
@@ -37,6 +40,17 @@ public class PriceServiceIT extends AbstractTransactionalIT {
 
 		assertThat(fetchedPriceIds, hasSize(generatedPriceIds.size()));
 		assertThat(fetchedPriceIds, contains(generatedPriceIds.toArray()));
+	}
+
+	@Test
+	@Ignore
+	public void testGeneratePrices() {
+		final Stock stock = stockService.findByTicker("NFLX");
+		final List<Price> generatedPrices = priceService.generatePrices(stock, 50);
+
+		for (final Price price : generatedPrices) {
+			LOGGER.info("insert into Price (stock_id, value) values ({}, {});", price.getStock().getId(), price.getValue());
+		}
 	}
 
 }

@@ -36,4 +36,22 @@ public class StatisticsServiceIT extends AbstractTransactionalIT {
 		LOGGER.info("{} exact VaR99: {}", portfolio2.getName(), statisticsService.exactVar99(portfolio2));
 	}
 
+	@Test
+	public void testHistoricVar95() {
+		final Portfolio portfolio1 = portfolioService.findByName("Portfolio1");
+		final Portfolio portfolio2 = portfolioService.findByName("Portfolio2");
+
+		LOGGER.info("{} historic VaR95: {}", portfolio1.getName(), statisticsService.historicVar95(portfolio1));
+		LOGGER.info("{} historic VaR95: {}", portfolio2.getName(), statisticsService.historicVar95(portfolio2));
+	}
+
+	@Test
+	public void testHistoricVar99() {
+		final Portfolio portfolio1 = portfolioService.findByName("Portfolio1");
+		final Portfolio portfolio2 = portfolioService.findByName("Portfolio2");
+
+		LOGGER.info("{} historic VaR99: {}", portfolio1.getName(), statisticsService.historicVar99(portfolio1));
+		LOGGER.info("{} historic VaR99: {}", portfolio2.getName(), statisticsService.historicVar99(portfolio2));
+	}
+
 }

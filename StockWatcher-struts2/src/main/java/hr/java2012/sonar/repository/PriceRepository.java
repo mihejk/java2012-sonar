@@ -18,4 +18,7 @@ public interface PriceRepository extends JpaRepository<Price, Long> {
 
 	Page<Price> findByStock(Stock stock, Pageable pageable);
 
+	@Query("select count(p) from Price p where p.stock = :stock")
+	long countByStock(@Param("stock") Stock stock);
+
 }

@@ -34,9 +34,14 @@ public class PriceServiceImpl extends AbstractEntityServiceImpl<Price> implement
 
 	@Override
 	public List<Price> findLastPrices(final Stock stock, final int n) {
-		PageRequest pageRequest = new PageRequest(0, n, Sort.Direction.DESC, "id");
-		Page<Price> page = repository.findByStock(stock, pageRequest);
+		final PageRequest pageRequest = new PageRequest(0, n, Sort.Direction.DESC, "id");
+		final Page<Price> page = repository.findByStock(stock, pageRequest);
 		return page.getContent();
+	}
+
+	@Override
+	public long countPrices(final Stock stock) {
+		return repository.countByStock(stock);
 	}
 
 	@Override
