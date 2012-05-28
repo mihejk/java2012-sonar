@@ -78,6 +78,9 @@ public class PortfolioController implements ModelDriven<Object> {
 		statistics.put("hybridVar95", statisticsService.hybridVar95(portfolio));
 		statistics.put("hybridVar99", statisticsService.hybridVar99(portfolio));
 
+		// value
+		statistics.put("value", statisticsService.portfolioValue(portfolio));
+
 		// prices
 		lastPrice = new ArrayList<Price>();
 		for (final Position position : positions) {

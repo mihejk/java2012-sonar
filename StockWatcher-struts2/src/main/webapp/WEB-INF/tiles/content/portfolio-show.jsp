@@ -8,7 +8,7 @@
 	</tr>
 	<tr>
 		<th><s:text name="label.value" /></th>
-		<td colspan="3"></td>
+		<td colspan="3"><s:property value="statistics['value']" /></td>
 	</tr>
 	<tr>
 		<th><s:text name="statistics.exactVar95" /></th>

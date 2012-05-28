@@ -32,6 +32,17 @@ public class StatisticsServiceImpl implements StatisticsService {
 	private PriceService priceService;
 
 	@Override
+	public double portfolioValue(final Portfolio portfolio) {
+		final List<Position> positions = positionService.findByPortfolio(portfolio);
+		double totalValue = 0.0;
+		for (final Position position : positions) {
+			final Price price = priceService.findLastPrice(position.getStock());
+			totalValue += position.getQuantity() * price.getValue();
+		}
+		return totalValue;
+	}
+
+	@Override
 	public double exactVar95(final Portfolio portfolio) {
 		LOGGER.debug("Exact VaR95 calculation for {}", portfolio.getName());
 
@@ -361,4 +372,5 @@ public class StatisticsServiceImpl implements StatisticsService {
 		}
 
 	}
+
 }
