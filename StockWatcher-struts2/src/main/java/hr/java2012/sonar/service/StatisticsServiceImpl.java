@@ -11,15 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StatisticsServiceImpl implements StatisticsService {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(StatisticsServiceImpl.class);
 
 	private static final double VAR99_STANDARD = 2.32634787404;
 	private static final double VAR95_STANDARD = 1.64485362695;
@@ -44,8 +40,6 @@ public class StatisticsServiceImpl implements StatisticsService {
 
 	@Override
 	public double exactVar95(final Portfolio portfolio) {
-		LOGGER.debug("Exact VaR95 calculation for {}", portfolio.getName());
-
 		final List<Position> positions = positionService.findByPortfolio(portfolio);
 		final List<Price> prices = new ArrayList<Price>();
 		double totalValue = 0.0;
@@ -61,21 +55,15 @@ public class StatisticsServiceImpl implements StatisticsService {
 			final double value = position.getQuantity() * price.getValue();
 			final double weight = value / totalValue;
 			stdDev += weight * weight * position.getStock().getStdDev() * position.getStock().getStdDev();
-			LOGGER.debug("\tPosition: {} Weight: {} Quantity: {} Price: {} Value: {}",
-					new Object[] { position.getStock().getTicker(), weight, position.getQuantity(), price.getValue(), value });
 		}
 		stdDev = Math.sqrt(stdDev);
 
 		final double var = VAR95_STANDARD * stdDev;
-		LOGGER.debug("Total: Value: {} StdDev: {} VaR95: {}", new Object[] { totalValue, stdDev, var });
-
 		return var;
 	}
 
 	@Override
 	public double exactVar99(final Portfolio portfolio) {
-		LOGGER.debug("Exact VaR99 calculation for {}", portfolio.getName());
-
 		final List<Position> positions = positionService.findByPortfolio(portfolio);
 		final List<Price> prices = new ArrayList<Price>();
 		double totalValue = 0.0;
@@ -91,29 +79,22 @@ public class StatisticsServiceImpl implements StatisticsService {
 			final double value = position.getQuantity() * price.getValue();
 			final double weight = value / totalValue;
 			stdDev += weight * weight * position.getStock().getStdDev() * position.getStock().getStdDev();
-			LOGGER.debug("\tPosition: {} Weight: {} Quantity: {} Price: {} Value: {}",
-					new Object[] { position.getStock().getTicker(), weight, position.getQuantity(), price.getValue(), value });
+
 		}
 		stdDev = Math.sqrt(stdDev);
 
 		final double var = VAR99_STANDARD * stdDev;
-		LOGGER.debug("Total: Value: {} StdDev: {} VaR99: {}", new Object[] { totalValue, stdDev, var });
-
 		return var;
 	}
 
 	@Override
 	public double historicVar95(final Portfolio portfolio) {
-		LOGGER.debug("VaR95 calculation via historic method for {}", portfolio.getName());
-
 		final List<Position> positions = positionService.findByPortfolio(portfolio);
 
 		int priceNum = 0;
 		for (final Position position : positions) {
 			priceNum = Math.max(priceNum, (int) priceService.countPrices(position.getStock()));
 		}
-
-		LOGGER.debug("Using {} prices.", priceNum);
 
 		final Map<Position, List<Price>> historicPrices = new HashMap<Position, List<Price>>();
 		for (final Position position : positions) {
@@ -152,23 +133,18 @@ public class StatisticsServiceImpl implements StatisticsService {
 		final double meanAdjustedReturn = historicReturns.get(index) - mean;
 		final double meanAdjustedReturn1 = historicReturns.get(index + 1) - mean;
 		final double var = -((index + 1 - position) * meanAdjustedReturn + (position - index) * meanAdjustedReturn1);
-		LOGGER.debug("VaR95: {}", var);
 
 		return var;
 	}
 
 	@Override
 	public double historicVar99(final Portfolio portfolio) {
-		LOGGER.debug("VaR99 calculation via historic method for {}", portfolio.getName());
-
 		final List<Position> positions = positionService.findByPortfolio(portfolio);
 
 		int priceNum = 0;
 		for (final Position position : positions) {
 			priceNum = Math.max(priceNum, (int) priceService.countPrices(position.getStock()));
 		}
-
-		LOGGER.debug("Using {} prices.", priceNum);
 
 		final Map<Position, List<Price>> historicPrices = new HashMap<Position, List<Price>>();
 		for (final Position position : positions) {
@@ -207,23 +183,18 @@ public class StatisticsServiceImpl implements StatisticsService {
 		final double meanAdjustedReturn = historicReturns.get(index) - mean;
 		final double meanAdjustedReturn1 = historicReturns.get(index + 1) - mean;
 		final double var = -((index + 1 - position) * meanAdjustedReturn + (position - index) * meanAdjustedReturn1);
-		LOGGER.debug("VaR99: {}", var);
 
 		return var;
 	}
 
 	@Override
 	public double hybridVar95(final Portfolio portfolio) {
-		LOGGER.debug("VaR95 calculation via hybrid method for {}", portfolio.getName());
-
 		final List<Position> positions = positionService.findByPortfolio(portfolio);
 
 		int priceNum = 0;
 		for (final Position position : positions) {
 			priceNum = Math.max(priceNum, (int) priceService.countPrices(position.getStock()));
 		}
-
-		LOGGER.debug("Using {} prices.", priceNum);
 
 		final Map<Position, List<Price>> historicPrices = new HashMap<Position, List<Price>>();
 		for (final Position position : positions) {
@@ -273,23 +244,17 @@ public class StatisticsServiceImpl implements StatisticsService {
 			previousCummulativeWeight = cummulativeWeight;
 		}
 
-		LOGGER.debug("VaR95: {}", var);
-
 		return var;
 	}
 
 	@Override
 	public double hybridVar99(final Portfolio portfolio) {
-		LOGGER.debug("VaR99 calculation via hybrid method for {}", portfolio.getName());
-
 		final List<Position> positions = positionService.findByPortfolio(portfolio);
 
 		int priceNum = 0;
 		for (final Position position : positions) {
 			priceNum = Math.max(priceNum, (int) priceService.countPrices(position.getStock()));
 		}
-
-		LOGGER.debug("Using {} prices.", priceNum);
 
 		final Map<Position, List<Price>> historicPrices = new HashMap<Position, List<Price>>();
 		for (final Position position : positions) {
@@ -338,8 +303,6 @@ public class StatisticsServiceImpl implements StatisticsService {
 			previousWeightedReturn = weightedReturn;
 			previousCummulativeWeight = cummulativeWeight;
 		}
-
-		LOGGER.debug("VaR99: {}", var);
 
 		return var;
 	}
