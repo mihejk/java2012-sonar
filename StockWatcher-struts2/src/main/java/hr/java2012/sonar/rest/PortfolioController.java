@@ -83,8 +83,8 @@ public class PortfolioController implements ModelDriven<Object> {
 
 		// prices
 		lastPrice = new ArrayList<Price>();
-		for (final Position position : positions) {
-			final Price price = priceService.findLastPrice(position.getStock());
+		for (Position position : positions) {
+			Price price = priceService.findLastPrice(position.getStock());
 			lastPrice.add(price);
 		}
 
@@ -124,7 +124,7 @@ public class PortfolioController implements ModelDriven<Object> {
 		return (portfolioList == null ? portfolio : portfolioList);
 	}
 
-	public void setEntityId(final Long entityId) {
+	public void setEntityId(Long entityId) {
 		if (entityId != null) {
 			this.portfolio = portfolioService.findOne(entityId);
 		}

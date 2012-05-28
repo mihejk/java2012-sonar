@@ -5,7 +5,7 @@ import hr.java2012.sonar.model.Stock;
 
 import java.util.List;
 
-public interface PriceService extends AbstractEntityService<Price> {
+public interface PriceService {
 
 	Price findLastPrice(Stock stock);
 

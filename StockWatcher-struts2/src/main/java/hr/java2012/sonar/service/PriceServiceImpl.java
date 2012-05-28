@@ -15,56 +15,51 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PriceServiceImpl extends AbstractEntityServiceImpl<Price> implements PriceService {
-
-	private final PriceRepository repository;
-
-	private final Random random = new Random();
+public class PriceServiceImpl implements PriceService {
 
 	@Autowired
-	public PriceServiceImpl(final PriceRepository repository) {
-		super(repository);
-		this.repository = repository;
-	}
+	private PriceRepository repository;
+
+	private Random random = new Random();
 
 	@Override
-	public Price findLastPrice(final Stock stock) {
+	public Price findLastPrice(Stock stock) {
 		return repository.findLastByStock(stock);
 	}
 
 	@Override
-	public List<Price> findLastPrices(final Stock stock, final int n) {
-		final PageRequest pageRequest = new PageRequest(0, n, Sort.Direction.DESC, "id");
-		final Page<Price> page = repository.findByStock(stock, pageRequest);
+	public List<Price> findLastPrices(Stock stock, int n) {
+		PageRequest pageRequest = new PageRequest(0, n, Sort.Direction.DESC, "id");
+		Page<Price> page = repository.findByStock(stock, pageRequest);
 		return page.getContent();
 	}
 
 	@Override
-	public long countPrices(final Stock stock) {
+	public long countPrices(Stock stock) {
 		return repository.countByStock(stock);
 	}
 
 	@Override
-	public Price generatePrice(final Stock stock) {
-		final Price lastPrice = findLastPrice(stock);
-		final double lastPriceValue = (lastPrice != null ? lastPrice.getValue() : 1.0 + 999.0 * random.nextDouble());
-		final double newReturn = 1.0 + random.nextGaussian() * stock.getStdDev();
-		final double newPriceValue = lastPriceValue * newReturn;
-		final Price price = new Price();
+	public Price generatePrice(Stock stock) {
+		Price lastPrice = findLastPrice(stock);
+		double lastPriceValue = (lastPrice != null ? lastPrice.getValue() : 1.0 + 999.0 * random.nextDouble());
+		double newReturn = 1.0 + random.nextGaussian() * stock.getStdDev();
+		double newPriceValue = lastPriceValue * newReturn;
+		Price price = new Price();
 		price.setStock(stock);
 		price.setValue(newPriceValue);
 		return repository.save(price);
 	}
 
 	@Override
-	public List<Price> generatePrices(final Stock stock, final int n) {
-		final Price lastPrice = findLastPrice(stock);
+	public List<Price> generatePrices(Stock stock, int n) {
+		Price lastPrice = findLastPrice(stock);
 		double lastPriceValue = (lastPrice != null ? lastPrice.getValue() : 1.0 + 999.0 * random.nextDouble());
-		final List<Price> prices = new ArrayList<Price>(n);
+		List<Price> prices = new ArrayList<Price>(n);
 		for (int i = 0; i < n; ++i) {
-			final double newReturn = 1.0 + random.nextGaussian() * stock.getStdDev();
-			final double newPriceValue = lastPriceValue * newReturn;
-			final Price price = new Price();
+			double newReturn = 1.0 + random.nextGaussian() * stock.getStdDev();
+			double newPriceValue = lastPriceValue * newReturn;
+			Price price = new Price();
 			price.setStock(stock);
 			price.setValue(newPriceValue);
 			prices.add(price);

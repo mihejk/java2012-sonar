@@ -39,11 +39,11 @@ public class PositionController implements ModelDriven<Position> {
 		return model;
 	}
 
-	public void setModel(final Position model) {
+	public void setModel(Position model) {
 		this.model = model;
 	}
 
-	public void setEntityId(final Long entityId) {
+	public void setEntityId(Long entityId) {
 		if (entityId != null) {
 			this.model = positionService.findOne(entityId);
 		}
