@@ -21,5 +21,15 @@
 		<result-types>
 			<result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult" default="true" />
 		</result-types>
+
+		<interceptors>
+			<interceptor name="clear-cache" class="hr.java2012.sonar.interceptor.ClearCacheInterceptor" />
+			<interceptor-stack name="appDefaultStack">
+				<interceptor-ref name="clear-cache" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+
+		<default-interceptor-ref name="appDefaultStack" />
 	</package>
 </struts>
