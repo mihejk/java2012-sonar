@@ -16,7 +16,7 @@
 	</tr>
 	<tr>
 		<th><s:text name="label.last_price" /></th>
-		<td></td>
+		<td>${lastPrice.value}</td>
 	</tr>
 	<tr>
 		<th><s:text name="label.prices_count" /></th>
