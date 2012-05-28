@@ -14,13 +14,12 @@ public class ClearCacheInterceptor extends AbstractInterceptor {
 
 	@Override
 	public String intercept(final ActionInvocation invocation) throws Exception {
-		final ActionContext context = (ActionContext) invocation.getInvocationContext();
+		final ActionContext context = invocation.getInvocationContext();
 		final HttpServletResponse response = (HttpServletResponse) context.get(StrutsStatics.HTTP_RESPONSE);
 		response.setHeader("Cache-Control", "no-cache, no-store");
 		response.setHeader("Pragma", "no-cache");
 		response.setDateHeader("Expires", 0);
-		final String result = invocation.invoke();
-		return result;
+		return invocation.invoke();
 	}
 
 }
