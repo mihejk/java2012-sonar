@@ -12,21 +12,21 @@
 	</tr>
 	<tr>
 		<th><s:text name="statistics.exactVar95" /></th>
-		<td></td>
+		<td><s:property value="statistics['exactVar95']"/></td>
 		<th><s:text name="statistics.exactVar99" /></th>
-		<td></td>
+		<td><s:property value="statistics['exactVar99']"/></td>
 	</tr>
 	<tr>
 		<th><s:text name="statistics.historicVar95" /></th>
-		<td></td>
+		<td><s:property value="statistics['historicVar95']"/></td>
 		<th><s:text name="statistics.historicVar99" /></th>
-		<td></td>
+		<td><s:property value="statistics['historicVar99']"/></td>
 	</tr>
 	<tr>
 		<th><s:text name="statistics.hybridVar95" /></th>
-		<td></td>
+		<td><s:property value="statistics['hybridVar95']"/></td>
 		<th><s:text name="statistics.hybridVar99" /></th>
-		<td></td>
+		<td><s:property value="statistics['hybridVar99']"/></td>
 	</tr>
 </table>
 
@@ -40,12 +40,12 @@
 		<th><s:text name="label.last_price" /></th>
 		<th><s:text name="label.actions" /></th>
 	</tr>
-	<s:iterator value="positions">
+	<s:iterator value="positions"  status="status">
 		<tr>
 			<td>${stock.ticker}</td>
 			<td>${stock.name}</td>
 			<td>${quantity}</td>
-			<td></td>
+			<td><s:property value="lastPrice[#status.index].value"/></td>
 			<td>
 				<a href="<%=request.getContextPath() %>/position/${id}?_method=DELETE"><s:text name="label.delete" /></a>
 			</td>
