@@ -47,30 +47,35 @@ public class PriceServiceImpl extends AbstractEntityServiceImpl<Price> implement
 	@Override
 	public Price generatePrice(final Stock stock) {
 		final Price lastPrice = findLastPrice(stock);
-		final double lastPriceValue = (lastPrice != null ? lastPrice.getValue() : 1.0 + 999.0 * random.nextDouble());
-		final double newReturn = 1.0 + random.nextGaussian() * stock.getStdDev();
-		final double newPriceValue = lastPriceValue * newReturn;
-		final Price price = new Price();
-		price.setStock(stock);
-		price.setValue(newPriceValue);
+		final double lastValue = extractOrGenerateValue(lastPrice);
+		final Price price = generatePrice(stock, lastValue);
 		return repository.save(price);
 	}
 
 	@Override
 	public List<Price> generatePrices(final Stock stock, final int n) {
-		final Price lastPrice = findLastPrice(stock);
-		double lastPriceValue = (lastPrice != null ? lastPrice.getValue() : 1.0 + 999.0 * random.nextDouble());
 		final List<Price> prices = new ArrayList<Price>(n);
+		final Price lastPrice = findLastPrice(stock);
+		double lastValue = extractOrGenerateValue(lastPrice);
 		for (int i = 0; i < n; ++i) {
-			final double newReturn = 1.0 + random.nextGaussian() * stock.getStdDev();
-			final double newPriceValue = lastPriceValue * newReturn;
-			final Price price = new Price();
-			price.setStock(stock);
-			price.setValue(newPriceValue);
+			final Price price = generatePrice(stock, lastValue);
+			lastValue = price.getValue();
 			prices.add(price);
-			lastPriceValue = newPriceValue;
 		}
 		return repository.save(prices);
+	}
+
+	private double extractOrGenerateValue(final Price price) {
+		return (price != null ? price.getValue() : 1.0 + 999.0 * random.nextDouble());
+	}
+
+	private Price generatePrice(final Stock stock, final double lastValue) {
+		final double newReturn = 1.0 + random.nextGaussian() * stock.getStdDev();
+		final double newValue = lastValue * newReturn;
+		final Price price = new Price();
+		price.setStock(stock);
+		price.setValue(newValue);
+		return price;
 	}
 
 }

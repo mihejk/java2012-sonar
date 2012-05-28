@@ -46,13 +46,13 @@ public class StatisticsServiceImpl implements StatisticsService {
 	public double exactVar95(final Portfolio portfolio) {
 		LOGGER.debug("Exact VaR95 calculation for {}", portfolio.getName());
 
-		final List<Position> positions = positionService.findByPortfolio(portfolio);
 		final List<Price> prices = new ArrayList<Price>();
+		final List<Position> positions = positionService.findByPortfolio(portfolio);
 		double totalValue = 0.0;
 		for (final Position position : positions) {
 			final Price price = priceService.findLastPrice(position.getStock());
-			prices.add(price);
 			totalValue += position.getQuantity() * price.getValue();
+			prices.add(price);
 		}
 		double stdDev = 0.0;
 		for (int i = 0; i < positions.size(); ++i) {
@@ -76,13 +76,13 @@ public class StatisticsServiceImpl implements StatisticsService {
 	public double exactVar99(final Portfolio portfolio) {
 		LOGGER.debug("Exact VaR99 calculation for {}", portfolio.getName());
 
-		final List<Position> positions = positionService.findByPortfolio(portfolio);
 		final List<Price> prices = new ArrayList<Price>();
+		final List<Position> positions = positionService.findByPortfolio(portfolio);
 		double totalValue = 0.0;
 		for (final Position position : positions) {
 			final Price price = priceService.findLastPrice(position.getStock());
-			prices.add(price);
 			totalValue += position.getQuantity() * price.getValue();
+			prices.add(price);
 		}
 		double stdDev = 0.0;
 		for (int i = 0; i < positions.size(); ++i) {
@@ -344,7 +344,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 		return var;
 	}
 
-	private class WeightedReturn {
+	private static final class WeightedReturn {
 
 		private final double weight;
 		private final double r3turn;
@@ -364,7 +364,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 
 	}
 
-	private class WeightedReturnComparator implements Comparator<WeightedReturn> {
+	private static final class WeightedReturnComparator implements Comparator<WeightedReturn> {
 
 		@Override
 		public int compare(final WeightedReturn firstWeightedReturn, final WeightedReturn secondWeightedReturn) {
