@@ -10,12 +10,12 @@
 		<th><s:text name="label.last_price" /></th>
 		<th><s:text name="label.actions" /></th>
 	</tr>
-	<s:iterator value="model">
+	<s:iterator value="model" status="status">
 		<tr>
 			<td>${ticker}</td>
 			<td>${name}</td>
 			<td>${stdDev}</td>
-			<td></td>
+			<td><s:property value="lastPrices[#status.index].value"/></td>
 			<td>
 				<a href="stock/${id}"><s:text name="label.view" /></a> |
 				<a href="stock/${id}/edit"><s:text name="label.edit" /></a> |
