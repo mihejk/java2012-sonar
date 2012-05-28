@@ -13,13 +13,13 @@ public class ClearCacheInterceptor extends AbstractInterceptor {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public String intercept(final ActionInvocation invocation) throws Exception {
-		final ActionContext context = (ActionContext) invocation.getInvocationContext();
-		final HttpServletResponse response = (HttpServletResponse) context.get(StrutsStatics.HTTP_RESPONSE);
+	public String intercept(ActionInvocation invocation) throws Exception {
+		ActionContext context = (ActionContext) invocation.getInvocationContext();
+		HttpServletResponse response = (HttpServletResponse) context.get(StrutsStatics.HTTP_RESPONSE);
 		response.setHeader("Cache-Control", "no-cache, no-store");
 		response.setHeader("Pragma", "no-cache");
 		response.setDateHeader("Expires", 0);
-		final String result = invocation.invoke();
+		String result = invocation.invoke();
 		return result;
 	}
 

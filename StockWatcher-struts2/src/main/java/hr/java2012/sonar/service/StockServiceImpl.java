@@ -12,24 +12,39 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class StockServiceImpl extends AbstractEntityServiceImpl<Stock> implements StockService {
-
-	private final StockRepository repository;
+public class StockServiceImpl implements StockService {
 
 	@Autowired
-	public StockServiceImpl(final StockRepository repository) {
-		super(repository);
-		this.repository = repository;
-	}
+	private StockRepository repository;
 
 	@Override
-	public Stock findByTicker(final String ticker) {
+	public Stock findByTicker(String ticker) {
 		return repository.findByTicker(ticker);
 	}
 
 	@Override
-	public List<Stock> findByNotInPortfolio(final Portfolio portfolio) {
+	public List<Stock> findByNotInPortfolio(Portfolio portfolio) {
 		return repository.findByNotInPortfolio(portfolio);
+	}
+
+	@Override
+	public List<Stock> findAll() {
+		return repository.findAll();
+	}
+
+	@Override
+	public void delete(Stock stock) {
+		repository.delete(stock);
+	}
+
+	@Override
+	public Stock save(Stock stock) {
+		return repository.save(stock);
+	}
+
+	@Override
+	public Stock findOne(Long entityId) {
+		return repository.findOne(entityId);
 	}
 
 }

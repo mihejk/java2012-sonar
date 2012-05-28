@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class PriceServiceIT extends AbstractTransactionalIT {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PriceServiceIT.class);
+	private static Logger LOGGER = LoggerFactory.getLogger(PriceServiceIT.class);
 
 	@Autowired
 	private PriceService priceService;
@@ -30,13 +30,13 @@ public class PriceServiceIT extends AbstractTransactionalIT {
 
 	@Test
 	public void testFindLastPrices() {
-		final Stock stock = stockService.findByTicker("FB");
-		final List<Price> generatedPrices = priceService.generatePrices(stock, 100).subList(50, 100);
-		final List<Price> fetchedPrices = priceService.findLastPrices(stock, 50);
+		Stock stock = stockService.findByTicker("FB");
+		List<Price> generatedPrices = priceService.generatePrices(stock, 100).subList(50, 100);
+		List<Price> fetchedPrices = priceService.findLastPrices(stock, 50);
 
 		Collections.reverse(generatedPrices);
-		final List<Long> generatedPriceIds = extract(generatedPrices, on(Price.class).getId());
-		final List<Long> fetchedPriceIds = extract(fetchedPrices, on(Price.class).getId());
+		List<Long> generatedPriceIds = extract(generatedPrices, on(Price.class).getId());
+		List<Long> fetchedPriceIds = extract(fetchedPrices, on(Price.class).getId());
 
 		assertThat(fetchedPriceIds, hasSize(generatedPriceIds.size()));
 		assertThat(fetchedPriceIds, contains(generatedPriceIds.toArray()));
@@ -45,10 +45,10 @@ public class PriceServiceIT extends AbstractTransactionalIT {
 	@Test
 	@Ignore
 	public void testGeneratePrices() {
-		final Stock stock = stockService.findByTicker("NFLX");
-		final List<Price> generatedPrices = priceService.generatePrices(stock, 50);
+		Stock stock = stockService.findByTicker("NFLX");
+		List<Price> generatedPrices = priceService.generatePrices(stock, 50);
 
-		for (final Price price : generatedPrices) {
+		for (Price price : generatedPrices) {
 			LOGGER.info("insert into Price (stock_id, value) values ({}, {});", price.getStock().getId(), price.getValue());
 		}
 	}

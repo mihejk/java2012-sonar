@@ -12,19 +12,29 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class PositionServiceImpl extends AbstractEntityServiceImpl<Position> implements PositionService {
+public class PositionServiceImpl implements PositionService {
 	
-	private final PositionRepository repository;
-
 	@Autowired
-	public PositionServiceImpl(final PositionRepository repository) {
-		super(repository);
-		this.repository = repository;
+	private PositionRepository repository;
+
+	@Override
+	public List<Position> findByPortfolio(Portfolio portfolio) {
+		return repository.findByPortfolio(portfolio);
 	}
 
 	@Override
-	public List<Position> findByPortfolio(final Portfolio portfolio) {
-		return repository.findByPortfolio(portfolio);
+	public void delete(Position position) {
+		repository.delete(position);
+	}
+
+	@Override
+	public Position findOne(Long entityId) {
+		return repository.findOne(entityId);
+	}
+
+	@Override
+	public Position save(Position position) {
+		return repository.save(position);
 	}
 
 }

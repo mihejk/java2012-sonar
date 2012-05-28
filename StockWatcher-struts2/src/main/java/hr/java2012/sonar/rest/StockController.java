@@ -44,8 +44,8 @@ public class StockController implements ModelDriven<Object> {
 	public String index() {
 		stockList = stockService.findAll();
 		lastPrices = new ArrayList<Price>();
-		for (final Stock stock : stockList) {
-			final Price price = priceService.findLastPrice(stock);
+		for (Stock stock : stockList) {
+			Price price = priceService.findLastPrice(stock);
 			lastPrices.add(price);
 		}
 		return "index";
@@ -91,7 +91,7 @@ public class StockController implements ModelDriven<Object> {
 		return (stockList == null ? stock : stockList);
 	}
 
-	public void setEntityId(final Long entityId) {
+	public void setEntityId(Long entityId) {
 		if (entityId != null) {
 			this.stock = stockService.findOne(entityId);
 		}
