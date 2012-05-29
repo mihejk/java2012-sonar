@@ -1,5 +1,7 @@
 package hr.java2012.sonar.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -9,7 +11,9 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "portfolio_id", "stock_id" }) })
-public class Position extends AbstractEntity {
+public class Position extends AbstractEntity implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@ManyToOne
 	@JoinColumn(name = "portfolio_id")

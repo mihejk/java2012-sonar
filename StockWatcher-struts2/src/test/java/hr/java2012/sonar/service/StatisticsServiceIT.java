@@ -23,8 +23,8 @@ public class StatisticsServiceIT extends AbstractTransactionalIT {
 		final Portfolio portfolio1 = portfolioService.findByName("Portfolio1");
 		final Portfolio portfolio2 = portfolioService.findByName("Portfolio2");
 
-		LOGGER.info("{} exact VaR95: {}", portfolio1.getName(), statisticsService.exactVar95(portfolio1));
-		LOGGER.info("{} exact VaR95: {}", portfolio2.getName(), statisticsService.exactVar95(portfolio2));
+		LOGGER.info("{} exact VaR95: {}", portfolio1.getName(), statisticsService.exactVAR95(portfolio1));
+		LOGGER.info("{} exact VaR95: {}", portfolio2.getName(), statisticsService.exactVAR95(portfolio2));
 	}
 
 	@Test
@@ -32,8 +32,8 @@ public class StatisticsServiceIT extends AbstractTransactionalIT {
 		final Portfolio portfolio1 = portfolioService.findByName("Portfolio1");
 		final Portfolio portfolio2 = portfolioService.findByName("Portfolio2");
 
-		LOGGER.info("{} exact VaR99: {}", portfolio1.getName(), statisticsService.exactVar99(portfolio1));
-		LOGGER.info("{} exact VaR99: {}", portfolio2.getName(), statisticsService.exactVar99(portfolio2));
+		LOGGER.info("{} exact VaR99: {}", portfolio1.getName(), statisticsService.exactVAR99(portfolio1));
+		LOGGER.info("{} exact VaR99: {}", portfolio2.getName(), statisticsService.exactVAR99(portfolio2));
 	}
 
 	@Test
@@ -41,8 +41,8 @@ public class StatisticsServiceIT extends AbstractTransactionalIT {
 		final Portfolio portfolio1 = portfolioService.findByName("Portfolio1");
 		final Portfolio portfolio2 = portfolioService.findByName("Portfolio2");
 
-		LOGGER.info("{} historic VaR95: {}", portfolio1.getName(), statisticsService.historicVar95(portfolio1));
-		LOGGER.info("{} historic VaR95: {}", portfolio2.getName(), statisticsService.historicVar95(portfolio2));
+		LOGGER.info("{} historic VaR95: {}", portfolio1.getName(), statisticsService.historicVAR95(portfolio1));
+		LOGGER.info("{} historic VaR95: {}", portfolio2.getName(), statisticsService.historicVAR95(portfolio2));
 	}
 
 	@Test
@@ -50,8 +50,8 @@ public class StatisticsServiceIT extends AbstractTransactionalIT {
 		final Portfolio portfolio1 = portfolioService.findByName("Portfolio1");
 		final Portfolio portfolio2 = portfolioService.findByName("Portfolio2");
 
-		LOGGER.info("{} historic VaR99: {}", portfolio1.getName(), statisticsService.historicVar99(portfolio1));
-		LOGGER.info("{} historic VaR99: {}", portfolio2.getName(), statisticsService.historicVar99(portfolio2));
+		LOGGER.info("{} historic VaR99: {}", portfolio1.getName(), statisticsService.historicVAR99(portfolio1));
+		LOGGER.info("{} historic VaR99: {}", portfolio2.getName(), statisticsService.historicVAR99(portfolio2));
 	}
 
 	@Test
@@ -59,8 +59,8 @@ public class StatisticsServiceIT extends AbstractTransactionalIT {
 		final Portfolio portfolio1 = portfolioService.findByName("Portfolio1");
 		final Portfolio portfolio2 = portfolioService.findByName("Portfolio2");
 
-		LOGGER.info("{} hybrid VaR95: {}", portfolio1.getName(), statisticsService.hybridVar95(portfolio1));
-		LOGGER.info("{} hybrid VaR95: {}", portfolio2.getName(), statisticsService.hybridVar95(portfolio2));
+		LOGGER.info("{} hybrid VaR95: {}", portfolio1.getName(), statisticsService.hybridVAR95(portfolio1));
+		LOGGER.info("{} hybrid VaR95: {}", portfolio2.getName(), statisticsService.hybridVAR95(portfolio2));
 	}
 
 	@Test
@@ -68,8 +68,8 @@ public class StatisticsServiceIT extends AbstractTransactionalIT {
 		final Portfolio portfolio1 = portfolioService.findByName("Portfolio1");
 		final Portfolio portfolio2 = portfolioService.findByName("Portfolio2");
 
-		LOGGER.info("{} hybrid VaR99: {}", portfolio1.getName(), statisticsService.hybridVar99(portfolio1));
-		LOGGER.info("{} hybrid VaR99: {}", portfolio2.getName(), statisticsService.hybridVar99(portfolio2));
+		LOGGER.info("{} hybrid VaR99: {}", portfolio1.getName(), statisticsService.hybridVAR99(portfolio1));
+		LOGGER.info("{} hybrid VaR99: {}", portfolio2.getName(), statisticsService.hybridVAR99(portfolio2));
 	}
 
 }

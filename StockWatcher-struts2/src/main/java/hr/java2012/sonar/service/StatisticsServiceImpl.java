@@ -3,10 +3,13 @@ package hr.java2012.sonar.service;
 import hr.java2012.sonar.model.Portfolio;
 import hr.java2012.sonar.model.Position;
 import hr.java2012.sonar.model.Price;
+import hr.java2012.sonar.service.var.ExactVAR95Service;
+import hr.java2012.sonar.service.var.ExactVAR99Service;
+import hr.java2012.sonar.service.var.HistoricVAR95Service;
+import hr.java2012.sonar.service.var.HistoricVAR99Service;
+import hr.java2012.sonar.service.var.HybridVAR95Service;
+import hr.java2012.sonar.service.var.HybridVAR99Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,15 +20,29 @@ import org.springframework.stereotype.Service;
 @Service
 public class StatisticsServiceImpl implements StatisticsService {
 
-	private static final double VAR99_STANDARD = 2.32634787404;
-	private static final double VAR95_STANDARD = 1.64485362695;
-	private static final double DAMPING_FACTOR = 0.91;
-
 	@Autowired
 	private PositionService positionService;
 
 	@Autowired
 	private PriceService priceService;
+
+	@Autowired
+	private ExactVAR95Service exactVAR95Service;
+
+	@Autowired
+	private ExactVAR99Service exactVAR99Service;
+
+	@Autowired
+	private HistoricVAR95Service historicVAR95Service;
+
+	@Autowired
+	private HistoricVAR99Service historicVAR99Service;
+
+	@Autowired
+	private HybridVAR95Service hybridVAR95Service;
+
+	@Autowired
+	private HybridVAR99Service hybridVAR99Service;
 
 	@Override
 	public double portfolioValue(final Portfolio portfolio) {
@@ -39,300 +56,65 @@ public class StatisticsServiceImpl implements StatisticsService {
 	}
 
 	@Override
-	public double exactVar95(final Portfolio portfolio) {
-		final List<Price> prices = new ArrayList<Price>();
+	public double exactVAR95(final Portfolio portfolio) {
 		final List<Position> positions = positionService.findByPortfolio(portfolio);
-		double totalValue = 0.0;
-		for (final Position position : positions) {
-			final Price price = priceService.findLastPrice(position.getStock());
-			totalValue += position.getQuantity() * price.getValue();
-			prices.add(price);
-		}
-		double stdDev = 0.0;
-		for (int i = 0; i < positions.size(); ++i) {
-			final Position position = positions.get(i);
-			final Price price = prices.get(i);
-			final double value = position.getQuantity() * price.getValue();
-			final double weight = value / totalValue;
-			stdDev += weight * weight * position.getStock().getStdDev() * position.getStock().getStdDev();
-		}
-		stdDev = Math.sqrt(stdDev);
-
-		final double var = VAR95_STANDARD * stdDev;
-		return var;
+		final Map<Position, List<Price>> priceMap = prepareLastPriceMap(positions);
+		return exactVAR95Service.calculate(priceMap);
 	}
 
 	@Override
-	public double exactVar99(final Portfolio portfolio) {
-		final List<Price> prices = new ArrayList<Price>();
+	public double exactVAR99(final Portfolio portfolio) {
 		final List<Position> positions = positionService.findByPortfolio(portfolio);
-		double totalValue = 0.0;
-		for (final Position position : positions) {
-			final Price price = priceService.findLastPrice(position.getStock());
-			totalValue += position.getQuantity() * price.getValue();
-			prices.add(price);
-		}
-		double stdDev = 0.0;
-		for (int i = 0; i < positions.size(); ++i) {
-			final Position position = positions.get(i);
-			final Price price = prices.get(i);
-			final double value = position.getQuantity() * price.getValue();
-			final double weight = value / totalValue;
-			stdDev += weight * weight * position.getStock().getStdDev() * position.getStock().getStdDev();
-		}
-		stdDev = Math.sqrt(stdDev);
-
-		final double var = VAR99_STANDARD * stdDev;
-		return var;
+		final Map<Position, List<Price>> priceMap = prepareLastPriceMap(positions);
+		return exactVAR99Service.calculate(priceMap);
 	}
 
 	@Override
-	public double historicVar95(final Portfolio portfolio) {
+	public double historicVAR95(final Portfolio portfolio) {
 		final List<Position> positions = positionService.findByPortfolio(portfolio);
-
-		int priceNum = 0;
-		for (final Position position : positions) {
-			priceNum = Math.max(priceNum, (int) priceService.countPrices(position.getStock()));
-		}
-
-		final Map<Position, List<Price>> historicPrices = new HashMap<Position, List<Price>>();
-		for (final Position position : positions) {
-			historicPrices.put(position, priceService.findLastPrices(position.getStock(), priceNum));
-		}
-
-		final List<Double> historicValues = new ArrayList<Double>();
-		final List<Double> historicReturns = new ArrayList<Double>();
-		double mean = 0.0;
-		for (int i = 0; i < priceNum; ++i) {
-			double historicValue = 0.0;
-			for (final Position position : positions) {
-				final double historicPrice = historicPrices.get(position).get(i).getValue();
-				historicValue += historicPrice * position.getQuantity();
-			}
-			historicValues.add(historicValue);
-
-			if (i > 0) {
-				// Prices are sorted descending with respect to time (zeroth
-				// price is the latest)
-				final double historicReturn = historicValues.get(i - 1) / historicValues.get(i) - 1.0;
-				historicReturns.add(historicReturn);
-				mean += historicReturn;
-			}
-		}
-		mean /= (priceNum - 1);
-
-		Collections.sort(historicReturns);
-
-		// A dummy sentinel
-		historicReturns.add(Double.NaN);
-		final double percentile = 0.95;
-		final double position = (1.0 - percentile) * (priceNum - 2);
-		final int index = (int) Math.floor(position);
-
-		final double meanAdjustedReturn = historicReturns.get(index) - mean;
-		final double meanAdjustedReturn1 = historicReturns.get(index + 1) - mean;
-		final double var = -((index + 1 - position) * meanAdjustedReturn + (position - index) * meanAdjustedReturn1);
-
-		return var;
+		final Map<Position, List<Price>> priceMap = prepareHistoricPriceMap(positions);
+		return historicVAR95Service.calculate(priceMap);
 	}
 
 	@Override
-	public double historicVar99(final Portfolio portfolio) {
+	public double historicVAR99(final Portfolio portfolio) {
 		final List<Position> positions = positionService.findByPortfolio(portfolio);
-
-		int priceNum = 0;
-		for (final Position position : positions) {
-			priceNum = Math.max(priceNum, (int) priceService.countPrices(position.getStock()));
-		}
-
-		final Map<Position, List<Price>> historicPrices = new HashMap<Position, List<Price>>();
-		for (final Position position : positions) {
-			historicPrices.put(position, priceService.findLastPrices(position.getStock(), priceNum));
-		}
-
-		final List<Double> historicValues = new ArrayList<Double>();
-		final List<Double> historicReturns = new ArrayList<Double>();
-		double mean = 0.0;
-		for (int i = 0; i < priceNum; ++i) {
-			double historicValue = 0.0;
-			for (final Position position : positions) {
-				final double historicPrice = historicPrices.get(position).get(i).getValue();
-				historicValue += historicPrice * position.getQuantity();
-			}
-			historicValues.add(historicValue);
-
-			if (i > 0) {
-				// Prices are sorted descending with respect to time (zeroth
-				// price is the latest)
-				final double historicReturn = historicValues.get(i - 1) / historicValues.get(i) - 1.0;
-				historicReturns.add(historicReturn);
-				mean += historicReturn;
-			}
-		}
-		mean /= (priceNum - 1);
-
-		Collections.sort(historicReturns);
-
-		// A dummy sentinel
-		historicReturns.add(Double.NaN);
-		final double percentile = 0.99;
-		final double position = (1.0 - percentile) * (priceNum - 2);
-		final int index = (int) Math.floor(position);
-
-		final double meanAdjustedReturn = historicReturns.get(index) - mean;
-		final double meanAdjustedReturn1 = historicReturns.get(index + 1) - mean;
-		final double var = -((index + 1 - position) * meanAdjustedReturn + (position - index) * meanAdjustedReturn1);
-
-		return var;
+		final Map<Position, List<Price>> priceMap = prepareHistoricPriceMap(positions);
+		return historicVAR99Service.calculate(priceMap);
 	}
 
 	@Override
-	public double hybridVar95(final Portfolio portfolio) {
+	public double hybridVAR95(final Portfolio portfolio) {
 		final List<Position> positions = positionService.findByPortfolio(portfolio);
-
-		int priceNum = 0;
-		for (final Position position : positions) {
-			priceNum = Math.max(priceNum, (int) priceService.countPrices(position.getStock()));
-		}
-
-		final Map<Position, List<Price>> historicPrices = new HashMap<Position, List<Price>>();
-		for (final Position position : positions) {
-			historicPrices.put(position, priceService.findLastPrices(position.getStock(), priceNum));
-		}
-
-		final List<Double> historicValues = new ArrayList<Double>();
-		final List<WeightedReturn> historicWeightedReturns = new ArrayList<WeightedReturn>();
-		double mean = 0.0;
-		for (int i = 0; i < priceNum; ++i) {
-			double historicValue = 0.0;
-			for (final Position position : positions) {
-				final double historicPrice = historicPrices.get(position).get(i).getValue();
-				historicValue += historicPrice * position.getQuantity();
-			}
-			historicValues.add(historicValue);
-
-			if (i > 0) {
-				// Prices are sorted descending with respect to time (zeroth
-				// price is the latest)
-				final double historicReturn = historicValues.get(i - 1) / historicValues.get(i) - 1.0;
-				final double weight = (1.0 - DAMPING_FACTOR) * Math.pow(DAMPING_FACTOR, i - 1) / (1.0 - Math.pow(DAMPING_FACTOR, priceNum - 1));
-				historicWeightedReturns.add(new WeightedReturn(weight, historicReturn));
-				mean += weight * historicReturn;
-			}
-		}
-
-		Collections.sort(historicWeightedReturns, new WeightedReturnComparator());
-
-		final double percentile = 0.95;
-		// Best initial guess
-		WeightedReturn previousWeightedReturn = historicWeightedReturns.get(0);
-		double previousCummulativeWeight = 0.0;
-		double var = 0.0;
-		for (int i = 0; i < priceNum - 1; ++i) {
-			final WeightedReturn weightedReturn = historicWeightedReturns.get(i);
-			final double cummulativeWeight = previousCummulativeWeight + weightedReturn.getWeight();
-			if (cummulativeWeight >= 1.0 - percentile) {
-				final double meanAdjustedPreviousReturn = previousWeightedReturn.getReturn() - mean;
-				final double meanAdjustedReturn = weightedReturn.getReturn() - mean;
-				var = -(meanAdjustedPreviousReturn * (cummulativeWeight - (1.0 - percentile)) + meanAdjustedReturn
-						* (1.0 - percentile - previousCummulativeWeight))
-						/ weightedReturn.getWeight();
-				break;
-			}
-			previousWeightedReturn = weightedReturn;
-			previousCummulativeWeight = cummulativeWeight;
-		}
-
-		return var;
+		final Map<Position, List<Price>> priceMap = prepareHistoricPriceMap(positions);
+		return hybridVAR95Service.calculate(priceMap);
 	}
 
 	@Override
-	public double hybridVar99(final Portfolio portfolio) {
+	public double hybridVAR99(final Portfolio portfolio) {
 		final List<Position> positions = positionService.findByPortfolio(portfolio);
-
-		int priceNum = 0;
-		for (final Position position : positions) {
-			priceNum = Math.max(priceNum, (int) priceService.countPrices(position.getStock()));
-		}
-
-		final Map<Position, List<Price>> historicPrices = new HashMap<Position, List<Price>>();
-		for (final Position position : positions) {
-			historicPrices.put(position, priceService.findLastPrices(position.getStock(), priceNum));
-		}
-
-		final List<Double> historicValues = new ArrayList<Double>();
-		final List<WeightedReturn> historicWeightedReturns = new ArrayList<WeightedReturn>();
-		double mean = 0.0;
-		for (int i = 0; i < priceNum; ++i) {
-			double historicValue = 0.0;
-			for (final Position position : positions) {
-				final double historicPrice = historicPrices.get(position).get(i).getValue();
-				historicValue += historicPrice * position.getQuantity();
-			}
-			historicValues.add(historicValue);
-
-			if (i > 0) {
-				// Prices are sorted descending with respect to time (zeroth
-				// price is the latest)
-				final double historicReturn = historicValues.get(i - 1) / historicValues.get(i) - 1.0;
-				final double weight = (1.0 - DAMPING_FACTOR) * Math.pow(DAMPING_FACTOR, i - 1) / (1.0 - Math.pow(DAMPING_FACTOR, priceNum - 1));
-				historicWeightedReturns.add(new WeightedReturn(weight, historicReturn));
-				mean += weight * historicReturn;
-			}
-		}
-
-		Collections.sort(historicWeightedReturns, new WeightedReturnComparator());
-
-		final double percentile = 0.99;
-		// Best initial guess
-		WeightedReturn previousWeightedReturn = historicWeightedReturns.get(0);
-		double previousCummulativeWeight = 0.0;
-		double var = 0.0;
-		for (int i = 0; i < priceNum - 1; ++i) {
-			final WeightedReturn weightedReturn = historicWeightedReturns.get(i);
-			final double cummulativeWeight = previousCummulativeWeight + weightedReturn.getWeight();
-			if (cummulativeWeight >= 1.0 - percentile) {
-				final double meanAdjustedPreviousReturn = previousWeightedReturn.getReturn() - mean;
-				final double meanAdjustedReturn = weightedReturn.getReturn() - mean;
-				var = -(meanAdjustedPreviousReturn * (cummulativeWeight - (1.0 - percentile)) + meanAdjustedReturn
-						* (1.0 - percentile - previousCummulativeWeight))
-						/ weightedReturn.getWeight();
-				break;
-			}
-			previousWeightedReturn = weightedReturn;
-			previousCummulativeWeight = cummulativeWeight;
-		}
-
-		return var;
+		final Map<Position, List<Price>> priceMap = prepareHistoricPriceMap(positions);
+		return hybridVAR99Service.calculate(priceMap);
 	}
 
-	private static final class WeightedReturn {
-
-		private final double weight;
-		private final double r3turn;
-
-		public WeightedReturn(final double weight, final double r3turn) {
-			this.weight = weight;
-			this.r3turn = r3turn;
-		}
-
-		public double getWeight() {
-			return weight;
-		}
-
-		public double getReturn() {
-			return r3turn;
-		}
-
+	private Map<Position, List<Price>> prepareLastPriceMap(final List<Position> positions) {
+		return preparePriceMap(positions, 1);
 	}
 
-	private static final class WeightedReturnComparator implements Comparator<WeightedReturn> {
-
-		@Override
-		public int compare(final WeightedReturn firstWeightedReturn, final WeightedReturn secondWeightedReturn) {
-			return (int) Math.signum(firstWeightedReturn.getReturn() - secondWeightedReturn.getReturn());
+	private Map<Position, List<Price>> prepareHistoricPriceMap(final List<Position> positions) {
+		int priceNum = Integer.MAX_VALUE;
+		for (final Position position : positions) {
+			priceNum = Math.min(priceNum, (int) priceService.countPrices(position.getStock()));
 		}
+		return preparePriceMap(positions, priceNum);
+	}
 
+	private Map<Position, List<Price>> preparePriceMap(final List<Position> positions, final int priceNum) {
+		final Map<Position, List<Price>> resultMap = new HashMap<Position, List<Price>>();
+		for (final Position position : positions) {
+			resultMap.put(position, priceService.findLastPrices(position.getStock(), priceNum));
+		}
+		return resultMap;
 	}
 
 }

@@ -6,16 +6,16 @@ public interface StatisticsService {
 
 	double portfolioValue(Portfolio portfolio);
 
-	double exactVar95(Portfolio portfolio);
+	double exactVAR95(Portfolio portfolio);
 
-	double exactVar99(Portfolio portfolio);
+	double exactVAR99(Portfolio portfolio);
 
-	double historicVar95(Portfolio portfolio);
+	double historicVAR95(Portfolio portfolio);
 
-	double historicVar99(Portfolio portfolio);
+	double historicVAR99(Portfolio portfolio);
 
-	double hybridVar95(Portfolio portfolio);
+	double hybridVAR95(Portfolio portfolio);
 
-	double hybridVar99(Portfolio portfolio);
+	double hybridVAR99(Portfolio portfolio);
 
 }

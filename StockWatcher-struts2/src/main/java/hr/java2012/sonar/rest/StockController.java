@@ -44,8 +44,8 @@ public class StockController implements ModelDriven<Object> {
 	public String index() {
 		stockList = stockService.findAll();
 		lastPrices = new ArrayList<Price>();
-		for (final Stock stock : stockList) {
-			final Price price = priceService.findLastPrice(stock);
+		for (final Stock stockInList : stockList) {
+			final Price price = priceService.findLastPrice(stockInList);
 			lastPrices.add(price);
 		}
 		return "index";

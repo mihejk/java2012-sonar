@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class PriceServiceImpl extends AbstractEntityServiceImpl<Price> implements PriceService {
 
+	private static final double PRICE_RANGE = 999.0;
+
 	private final PriceRepository repository;
 
 	private final Random random = new Random();
@@ -66,7 +68,7 @@ public class PriceServiceImpl extends AbstractEntityServiceImpl<Price> implement
 	}
 
 	private double extractOrGenerateValue(final Price price) {
-		return (price != null ? price.getValue() : 1.0 + 999.0 * random.nextDouble());
+		return (price != null ? price.getValue() : 1.0 + PRICE_RANGE * random.nextDouble());
 	}
 
 	private Price generatePrice(final Stock stock, final double lastValue) {

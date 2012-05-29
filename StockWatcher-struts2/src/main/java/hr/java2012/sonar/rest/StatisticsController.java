@@ -43,14 +43,14 @@ public class StatisticsController implements ModelDriven<Double> {
 	/** Handles GET /statistics!exactVar95?portfolio={id} requests */
 	public String exactVar95() {
 		analysisMethod = "exactVar95";
-		result = statisticsService.exactVar95(portfolio);
+		result = statisticsService.exactVAR95(portfolio);
 		return "result";
 	}
 	
 	/** Handles GET /statistics!exactVar99?portfolio={id} requests */
 	public String exactVar99() {
 		analysisMethod = "exactVar99";
-		result = statisticsService.exactVar99(portfolio);
+		result = statisticsService.exactVAR99(portfolio);
 		return "result";
 	}
 	
@@ -58,28 +58,28 @@ public class StatisticsController implements ModelDriven<Double> {
 	/** Handles GET /statistics!historicVar95?portfolio={id} requests */
 	public String historicVar95() {
 		analysisMethod = "historicVar95";
-		result = statisticsService.historicVar95(portfolio);
+		result = statisticsService.historicVAR95(portfolio);
 		return "result";
 	}
 
 	/** Handles GET /statistics!historicVar99?portfolio={id} requests */
 	public String historicVar99() {
 		analysisMethod = "historicVar99";
-		result = statisticsService.historicVar99(portfolio);
+		result = statisticsService.historicVAR99(portfolio);
 		return "result";
 	}
 	
 	/** Handles GET /statistics!hybridVar95?portfolio={id} requests */
 	public String hybridVar95() {
 		analysisMethod = "hybridVar95";
-		result = statisticsService.hybridVar95(portfolio);
+		result = statisticsService.hybridVAR95(portfolio);
 		return "result";
 	}
 	
 	/** Handles GET /statistics!hybridVar99?portfolio={id} requests */
 	public String hybridVar99() {
 		analysisMethod = "hybridVar99";
-		result = statisticsService.hybridVar99(portfolio);
+		result = statisticsService.hybridVAR99(portfolio);
 		return "result";
 	}
 

@@ -71,12 +71,12 @@ public class PortfolioController implements ModelDriven<Object> {
 
 		// var
 		statistics = new HashMap<String, Double>();
-		statistics.put("exactVar95", statisticsService.exactVar95(portfolio));
-		statistics.put("exactVar99", statisticsService.exactVar99(portfolio));
-		statistics.put("historicVar95", statisticsService.historicVar95(portfolio));
-		statistics.put("historicVar99", statisticsService.historicVar99(portfolio));
-		statistics.put("hybridVar95", statisticsService.hybridVar95(portfolio));
-		statistics.put("hybridVar99", statisticsService.hybridVar99(portfolio));
+		statistics.put("exactVar95", statisticsService.exactVAR95(portfolio));
+		statistics.put("exactVar99", statisticsService.exactVAR99(portfolio));
+		statistics.put("historicVar95", statisticsService.historicVAR95(portfolio));
+		statistics.put("historicVar99", statisticsService.historicVAR99(portfolio));
+		statistics.put("hybridVar95", statisticsService.hybridVAR95(portfolio));
+		statistics.put("hybridVar99", statisticsService.hybridVAR99(portfolio));
 
 		// value
 		statistics.put("value", statisticsService.portfolioValue(portfolio));
