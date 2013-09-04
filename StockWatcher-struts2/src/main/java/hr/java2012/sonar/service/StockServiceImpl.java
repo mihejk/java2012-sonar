@@ -11,25 +11,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
-public class StockServiceImpl extends AbstractEntityServiceImpl<Stock> implements StockService {
-
-	private final StockRepository repository;
+@Transactional(readOnly = true)
+public class StockServiceImpl extends AbstractEntityServiceImpl<Stock, StockRepository> implements StockService {
 
 	@Autowired
 	public StockServiceImpl(final StockRepository repository) {
 		super(repository);
-		this.repository = repository;
 	}
 
 	@Override
 	public Stock findByTicker(final String ticker) {
-		return repository.findByTicker(ticker);
+		return getRepository().findByTicker(ticker);
 	}
 
 	@Override
 	public List<Stock> findByNotInPortfolio(final Portfolio portfolio) {
-		return repository.findByNotInPortfolio(portfolio);
+		return getRepository().findByNotInPortfolio(portfolio);
 	}
 
 }

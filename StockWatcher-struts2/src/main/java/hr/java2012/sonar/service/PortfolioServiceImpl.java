@@ -8,20 +8,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
-public class PortfolioServiceImpl extends AbstractEntityServiceImpl<Portfolio> implements PortfolioService {
-
-	private final PortfolioRepository repository;
+@Transactional(readOnly = true)
+public class PortfolioServiceImpl extends AbstractEntityServiceImpl<Portfolio, PortfolioRepository> implements PortfolioService {
 
 	@Autowired
 	public PortfolioServiceImpl(final PortfolioRepository repository) {
 		super(repository);
-		this.repository = repository;
 	}
 
 	@Override
 	public Portfolio findByName(final String name) {
-		return repository.findByName(name);
+		return getRepository().findByName(name);
 	}
 
 }

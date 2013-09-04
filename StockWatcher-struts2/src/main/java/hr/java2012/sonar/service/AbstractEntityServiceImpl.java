@@ -7,12 +7,16 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-public class AbstractEntityServiceImpl<T extends AbstractEntity> implements AbstractEntityService<T> {
+public class AbstractEntityServiceImpl<T extends AbstractEntity, R extends JpaRepository<T, Long>> implements AbstractEntityService<T> {
 
-	private final JpaRepository<T, Long> repository;
+	private final R repository;
 
-	public AbstractEntityServiceImpl(final JpaRepository<T, Long> repository) {
+	public AbstractEntityServiceImpl(final R repository) {
 		this.repository = repository;
+	}
+
+	protected R getRepository() {
+		return repository;
 	}
 
 	@Transactional

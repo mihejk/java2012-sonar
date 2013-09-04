@@ -13,47 +13,48 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class PriceServiceImpl extends AbstractEntityServiceImpl<Price> implements PriceService {
+@Transactional(readOnly = true)
+public class PriceServiceImpl extends AbstractEntityServiceImpl<Price, PriceRepository> implements PriceService {
 
 	private static final double PRICE_RANGE = 999.0;
-
-	private final PriceRepository repository;
 
 	private final Random random = new Random();
 
 	@Autowired
 	public PriceServiceImpl(final PriceRepository repository) {
 		super(repository);
-		this.repository = repository;
 	}
 
 	@Override
 	public Price findLastPrice(final Stock stock) {
-		return repository.findLastByStock(stock);
+		return getRepository().findLastByStock(stock);
 	}
 
 	@Override
 	public List<Price> findLastPrices(final Stock stock, final int n) {
 		final PageRequest pageRequest = new PageRequest(0, n, Sort.Direction.DESC, "id");
-		final Page<Price> page = repository.findByStock(stock, pageRequest);
+		final Page<Price> page = getRepository().findByStock(stock, pageRequest);
 		return page.getContent();
 	}
 
 	@Override
 	public long countPrices(final Stock stock) {
-		return repository.countByStock(stock);
+		return getRepository().countByStock(stock);
 	}
 
+	@Transactional
 	@Override
 	public Price generatePrice(final Stock stock) {
 		final Price lastPrice = findLastPrice(stock);
 		final double lastValue = extractOrGenerateValue(lastPrice);
 		final Price price = generatePrice(stock, lastValue);
-		return repository.save(price);
+		return getRepository().save(price);
 	}
 
+	@Transactional
 	@Override
 	public List<Price> generatePrices(final Stock stock, final int n) {
 		final List<Price> prices = new ArrayList<Price>(n);
@@ -64,7 +65,7 @@ public class PriceServiceImpl extends AbstractEntityServiceImpl<Price> implement
 			lastValue = price.getValue();
 			prices.add(price);
 		}
-		return repository.save(prices);
+		return getRepository().save(prices);
 	}
 
 	private double extractOrGenerateValue(final Price price) {
